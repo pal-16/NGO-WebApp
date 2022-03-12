@@ -135,7 +135,11 @@ exports.chatbot = async (req, res) => {
     const location = await agent.context.get("location").parameters[
       "location.original"
     ];
+    console.log(location);
+    const range = await agent.context.get("range").parameters["range.original"];
+
     const result = await geocoder.findAddressCandidates(location, {});
+    console.log(result);
     var payloadData = {};
     async function getNearOrganization(agent) {
       try {
@@ -149,7 +153,7 @@ exports.chatbot = async (req, res) => {
                   result.candidates[0].location.y
                 ]
               },
-              $maxDistance: 5000
+              $maxDistance: range * 1000
             }
           }
         });
@@ -159,7 +163,7 @@ exports.chatbot = async (req, res) => {
                 [
                   {
                     type: "info",
-                    title: `No NGO's found within 5kms`
+                    title: `No NGO's found within ${range}kms`
                   }
                 ]
               ]
