@@ -19,5 +19,9 @@ module.exports = (app) => {
 
   app.route("/api/user/assistance/accept")
     .post(auth.loginRequired, UserController.acceptAssistanceRequest);
+
+  app.route("/api/user/assistance/complete")
+    .post(auth.loginRequired, UserController.completeAssistanceRequest);
+
   app.post("/api/user/chatbot", UserController.chatbot);
 };

@@ -61,19 +61,8 @@ exports.loginUser = async (req, res) => {
 //create user assistance request
 exports.createAssistanceRequest = async (req, res) => {
   try {
-    await AssistanceRequest.create({
+    const assistanceRequest = await AssistanceRequest.create({
       ...req.body,
-      user: req.userId
-    });
-  } catch (e) {
-    return res.status(500).json({ error: e.message });
-  }
-};
-
-//get user current assistance request
-exports.getAssistanceRequest = async (req, res) => {
-  try {
-    const assistanceRequest = await AssistanceRequest.findOne({
       user: req.userId
     });
     res.status(200).json({
@@ -87,12 +76,46 @@ exports.getAssistanceRequest = async (req, res) => {
   }
 };
 
+//get user current assistance request
+exports.getAssistanceRequest = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (user.status == "disability") {
+      const assistanceRequest = await AssistanceRequest.findOne({
+        user: user._id,
+        currentStatus: {
+          $in: ["Assigned", "Pending"]
+        }
+      });
+      res.status(200).json({
+        status: "success",
+        assistanceRequest,
+        user
+      });
+    } else {
+      const assistanceRequest = await AssistanceRequest.findOne({
+        assignedUser: req.userId,
+        currentStatus: "Assigned"
+      });
+      console.log("Not disbaled", assistanceRequest);
+      res.status(200).json({
+        status: "success",
+        assistanceRequest,
+        user
+      });
+    }
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+
 //user assistance request
 exports.acceptAssistanceRequest = async (req, res) => {
   try {
     const { latitude, longitude } = req.body;
+    console.log({ latitude, longitude });
     const assistanceRequest = await AssistanceRequest.findOne({
-      userLocation:
+      userlocation:
       {
         $near:
         {
@@ -110,18 +133,33 @@ exports.acceptAssistanceRequest = async (req, res) => {
         error: "No assistance required in your area currently, please try again later"
       });
     }
-    assistanceRequest.status = "Assigned";
+    assistanceRequest.currentStatus = "Assigned";
     assistanceRequest.assignedUser = req.userId;
-    assistanceRequest.assignedUserLocation = {
+    assistanceRequest.assignedUserlocation = {
       type: "Point",
       coordinates: [latitude, longitude]
     }
     await assistanceRequest.save();
     res.status(200).json({
       status: "success",
-      data: {
-        assistanceRequest
-      }
+      assistanceRequest
+    });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+
+exports.completeAssistanceRequest = async (req, res) => {
+  try {
+    const assistanceRequest = await AssistanceRequest.findOne({
+      assignedUser: req.userId,
+      currentStatus: "Assigned"
+    });
+    assistanceRequest.currentStatus = "Completed";
+    await assistanceRequest.save();
+    res.status(200).json({
+      status: "success",
+      assistanceRequest
     });
   } catch (e) {
     return res.status(500).json({ error: e.message });

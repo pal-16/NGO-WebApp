@@ -13,6 +13,7 @@ const navigation = [
   { name: 'Features', href: '/features' },
   { name: 'Marketplace', href: '/marketplace' },
   { name: 'Company', href: '/company' },
+  { name: 'Assistance', href: '/assistance' },
 ]
 
 const Header = ({ isAuthenticated, setIsAuthenticated }) => {
@@ -74,7 +75,7 @@ const Header = ({ isAuthenticated, setIsAuthenticated }) => {
                     Logout
                   </Link>
                 }
-                
+
               </div>
             </nav>
           </div>
@@ -134,7 +135,7 @@ const Header = ({ isAuthenticated, setIsAuthenticated }) => {
                     Logout
                   </div>
                 }
-                
+
               </div>
             </Popover.Panel>
           </Transition>

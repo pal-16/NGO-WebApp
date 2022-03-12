@@ -18,6 +18,7 @@ const MyToken = React.lazy(() => import("./pages/MyToken"));
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Polls = React.lazy(() => import("./pages/Polls"));
 const Stat = React.lazy(() => import("./pages/Stat"));
+const Assistance = React.lazy(() => import("./pages/Assistance"));
 
 const App = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(isLoggedIn());
@@ -55,6 +56,10 @@ const App = () => {
 						<Route path="/features" exact element={<Features />} />
 						<Route path="/marketplace" exact element={<Marketplace />} />
 						<Route path="/marketplace/:tokenID" element={<Token />} />
+						<Route
+							path="/assistance"
+							element={isAuthenticated ? <Assistance /> : <Navigate to="/" />}
+						/>
 						<Route
 							path="/myToken"
 							element={isAuthenticated ? <MyToken /> : <Navigate to="/" />}
