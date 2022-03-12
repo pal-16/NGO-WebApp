@@ -18,7 +18,6 @@ import {
 	BadgeCheckIcon,
 } from "@heroicons/react/outline";
 import { oneETH } from "../constants";
-import Polls from "./Polls.js";
 
 const Token = () => {
 	const [token, setToken] = useState([]);
@@ -465,7 +464,7 @@ const Token = () => {
 							)}
 							{user && user.token === tokenID && (
 								<section>
-									<Polls tokenIndex={tokenIndex} />
+									{/* <Polls tokenIndex={tokenIndex} /> */}
 								</section>
 							)}
 						</div>

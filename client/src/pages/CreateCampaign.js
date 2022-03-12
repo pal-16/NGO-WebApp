@@ -1,9 +1,6 @@
-import { useState } from "react";
-import React from "react";
-import Api, { responseErrorHandler } from "../utils/Api/Api";
-import { toast } from "react-toastify";
-import Input from "../components/Input";
-import { getUserId } from "../utils/jwtUtil";
+const CreateCampaign = () => {
+	return <></>;
+};
 
 const CreateCampaign = () => {
 	const [name, setName] = useState("");
