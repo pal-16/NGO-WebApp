@@ -7,30 +7,35 @@ const geocoder = new GeocoderArcGIS();
 //Register Organization
 exports.registerOrganization = async (req, res) => {
   try {
-    const Organization = await Organization.findOne({
+    const organization = await Organization.findOne({
       $or: [
         { OrganizationID: req.body.OrganizationID },
         { email: req.body.email }
       ]
     });
 
-    if (Organization) {
+    if (organization) {
       return res.status(400).json({
         error: "Organization with this ID or email already exists"
       });
     }
 
+    console.log(req.body);
     const { name, email, address } = req.body;
+    console.log(`${name}+${address}`);
     let loc = [];
 
-    geocoder
-      .findAddressCandidates(address, {})
-      .then((result) => {
-        loc.push(result.candidates[0].location.x);
-        loc.push(result.candidates[0].location.y);
-        console.log(result.candidates[0]);
-      })
-      .catch(console.log);
+    // geocoder
+    //   .findAddressCandidates(address, {})
+    //   .then((result) => {
+    //     loc.push(result.candidates[0].location.x);
+    //     loc.push(result.candidates[0].location.y);
+    //     console.log(result.candidates[0]);
+    //   })
+    //   .catch(console.log);
+    const result = await geocoder.findAddressCandidates(address, {});
+    loc.push(result.candidates[0].location.x);
+    loc.push(result.candidates[0].location.y);
     let location = { type: "Point", coordinates: loc };
     console.log(`locc====${location}`);
     const newOrganization = await Organization.create({
@@ -58,13 +63,13 @@ exports.loginOrganization = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const Organization = await Organization.findOne({ email }).select(
+    const organization = await Organization.findOne({ email }).select(
       "+password"
     );
 
     if (
-      !Organization ||
-      !(await Organization.correctPassword(password, Organization.password))
+      !organization ||
+      !(await Organization.correctPassword(password, organization.password))
     ) {
       return res.status(401).json({ error: "Incorrect email or password" });
     }
@@ -74,7 +79,7 @@ exports.loginOrganization = async (req, res) => {
       status: "success",
       token,
       data: {
-        userID: Organization._id
+        userID: organization._id
       }
     });
   } catch (e) {

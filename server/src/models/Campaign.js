@@ -8,19 +8,28 @@ const CampaignSchema = new Schema(
       required: true
     },
     description: {
-      type:String,
+      type: String,
       required: true
     },
-    volunteersRequired: {
-        type:Number,
-        required: false
-    },
-    time:{
-      type:DateTime,
+    noOfVolunteers: {
+      type: Number,
       required: false
     },
-    date:{
-      type:Dat,
+    volunteers: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "user"
+        }
+      ],
+      default: []
+    },
+    time: {
+      type: DateTime,
+      required: false
+    },
+    date: {
+      type: Dat,
       required: false
     }
   },

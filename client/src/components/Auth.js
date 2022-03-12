@@ -10,18 +10,18 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 	const [signIn, setSignIn] = useState(isSignIn);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [mobile, setMobile] = useState("");
+	const [address, setAddress] = useState("");
 	const [name, setName] = useState("");
 	const [role, setRole] = useState("student");
 	const submit = async () => {
 		if (!validator.isEmail(email)) {
 			return toast.error("Invalid Email Address");
 		}
-		if (!signIn && !validator.isMobilePhone(`+91${mobile}`)) {
-			return toast.error("Invalid Mobile Number");
-		}
 		if (!signIn && name.length < 3) {
 			return toast.error("Invalid Name");
+		}
+		if (!signIn && address.length < 3) {
+			return toast.error("Invalid Address");
 		}
 		if (password.length < 8) {
 			return toast.error("Please Use A Password With Minimum Length 8");
@@ -32,11 +32,20 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 		try {
 			const response = signIn
 				? await Api.auth.signIn({ email, password })
+				: userType == "org"
+				? await Api.auth.signUp({
+						email,
+						password,
+						name,
+						address,
+						userType,
+				  })
 				: await Api.auth.signUp({
-					email,
-					password,
-					userType
-				});
+						email,
+						password,
+						name,
+						userType,
+				  });
 			toast.update(toastElement, {
 				render: signIn
 					? "Logged In Successfully"
@@ -60,14 +69,13 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 	return (
 		<div className="bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 modal">
 			<h2 className="text-gray-900 text-lg font-medium title-font mb-5">
-				{signIn ? "Sign In" : "Register"} As A {userType == "org" ? "Organization" : "User"}
+				{signIn ? "Sign In" : "Register"} As A{" "}
+				{userType == "org" ? "Organization" : "User"}
 			</h2>
 			{!signIn && <Input label="Full Name" name="name" setter={setName} />}
 			<Input label="Email" type="email" setter={setEmail} />
-			{!signIn && (
-				<Input label="Mobile Number" type="number" setter={setMobile} />
-			)}
-			{!signIn && (
+			{!signIn && <Input label="Address" name="address" setter={setAddress} />}
+			{/* {!signIn && (
 				<Radio
 					label="Role"
 					value={role}
@@ -85,7 +93,7 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 						},
 					]}
 				/>
-			)}
+			)} */}
 			<Input label="Password" type="password" setter={setPassword} />
 			<button
 				onClick={submit}
@@ -103,10 +111,20 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 	);
 };
 
-const Auth = ({ setIsAuthenticated, isSignIn, className, userType, ...props }) => {
+const Auth = ({
+	setIsAuthenticated,
+	isSignIn,
+	className,
+	userType,
+	...props
+}) => {
 	return (
 		<Popup
-			Button={<button className={className}>LogIn As A {userType == "org" ? "Organization" : "User"}</button>}
+			Button={
+				<button className={className}>
+					LogIn As A {userType == "org" ? "Organization" : "User"}
+				</button>
+			}
 			Modal={AuthModal}
 			setIsAuthenticated={setIsAuthenticated}
 			isSignIn={isSignIn}
