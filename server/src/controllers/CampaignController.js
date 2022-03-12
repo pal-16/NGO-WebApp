@@ -21,7 +21,9 @@ exports.createCampaign = async (req, res) => {
       req.body;
 
     let loc = [];
+
     const result = await geocoder.findAddressCandidates(address, {});
+
     loc.push(result.candidates[0].location.x);
     loc.push(result.candidates[0].location.y);
     let location = { type: "Point", coordinates: loc };
@@ -33,24 +35,23 @@ exports.createCampaign = async (req, res) => {
       noOfVolunteers,
       time,
       date,
-      location
+      location,
+      address
     });
     await Organization.findByIdAndUpdate(orgId, {
       $push: { campaign: campaign }
     });
-
-    const locresult = await geocoder.findAddressCandidates(location, {});
-    const filteredUsers = await User.find({
+    const filteredUsers = await Organization.find({
       location: {
         $near: {
           $geometry: {
             type: "Point",
             coordinates: [
-              locresult.candidates[0].location.x,
-              locresult.candidates[0].location.y
+              result.candidates[0].location.x,
+              result.candidates[0].location.y
             ]
           },
-          $maxDistance: range * 1000
+          $maxDistance: 50000
         }
       }
     });
@@ -81,6 +82,7 @@ exports.createCampaign = async (req, res) => {
       data: {}
     });
   } catch (e) {
+    console.log(e);
     return res.status(500).json({ error: e.message });
   }
 };

@@ -1,20 +1,32 @@
 import axios from "./axios.js";
 
-const AuthApi = {
-	create: ({ orgId, title, description, totalAmount }) => {
+const CampaignApi = {
+	createCampaign: ({
+		orgId,
+		name,
+		description,
+		noOfVolunteers,
+		date,
+		time,
+		address,
+	}) => {
+		console.log(`add=${address}`);
 		return axios.post(`/campaign/create`, {
 			orgId,
-			title,
+			name,
 			description,
-			totalAmount,
+			noOfVolunteers,
+			date,
+			time,
+			address,
 		});
 	},
-	getAllPosts: () => {
+	getAllCampaigns: () => {
 		return axios.get(`/crowdfunding/getAllCampaigns`);
 	},
-	getParticular: ({ orgId }) => {
+	getParticularOrganizationCampaigns: ({ orgId }) => {
 		return axios.get(`/org/campaign/${orgId}`);
 	},
 };
 
-export default AuthApi;
+export default CampaignApi;
