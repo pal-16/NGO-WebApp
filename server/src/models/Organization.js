@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 const OrganizationSchema = new Schema(
   {
-
     name: {
       type: String,
       required: true
@@ -37,15 +36,15 @@ const OrganizationSchema = new Schema(
     },
     type: {
       type: String,
-      enum: [
-        "NGO",
-        "Orphange",
-        "Old Age Home"
-      ],
+      enum: ["NGO", "Orphange", "Old Age Home"],
       default: "NGO",
       required: true
     },
     // LOCATION
+    loc: {
+      x: String,
+      y: String
+    }
   },
   { timestamps: true }
 );
