@@ -25,6 +25,7 @@ const TransactionModal = ({ postId, orgId, close }) => {
         try {
           const paymentId = response.razorpay_payment_id;
           const res = await Api.crowdfunding.makeTransaction({ amount, postId, orgId, userId, paymentId });
+        
           console.log("Razorpay")
           console.log(res);
          return close();

@@ -55,8 +55,8 @@ const App = () => {
 								/>
 							}
 						/>
-						<Route path="/company" exact element={<Company />} />
-						<Route path="/features" exact element={<Features />} />
+						{/* <Route path="/company" exact element={<Company />} />
+						<Route path="/features" exact element={<Features />} /> */}
 						<Route
 							path="/Campaign"
 							exact
