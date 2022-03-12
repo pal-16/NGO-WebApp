@@ -9,6 +9,7 @@ const CampaignApi = {
 		date,
 		time,
 		address,
+		imageUrl,
 	}) => {
 		console.log(`add=${address}`);
 		return axios.post(`/campaign/create`, {
@@ -19,6 +20,7 @@ const CampaignApi = {
 			date,
 			time,
 			address,
+			imageUrl,
 		});
 	},
 	getAllCampaigns: () => {

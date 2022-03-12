@@ -10,6 +10,7 @@ const CreateCampaign = () => {
 	const [noOfVolunteers, setNumberOfVolunteers] = useState(0);
 	const [date, setDate] = useState(new Date());
 	const [time, setTime] = useState(new Date());
+	const [imageUrl, setImageUrl] = useState("");
 	const orgId = getUserId();
 	const submit = async () => {
 		if (name.length < 3) {
@@ -32,6 +33,7 @@ const CreateCampaign = () => {
 				date,
 				time,
 				address,
+				imageUrl,
 			});
 
 			toast.update(toastElement, {
@@ -55,6 +57,7 @@ const CreateCampaign = () => {
 				name="noOfVolunteers"
 				setter={setNumberOfVolunteers}
 			/>
+			<Input label="Image" name="imageUrl" setter={setImageUrl} />
 			<Input type="date" label="Date" name="date" setter={setDate} />
 			<Input type="datetime-local" label="Time" name="time" setter={setTime} />
 
