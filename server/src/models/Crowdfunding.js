@@ -3,6 +3,11 @@ const Schema = mongoose.Schema;
 
 const CrowdfundingSchema = new Schema(
   {
+    orgId: {
+      type: Schema.Types.ObjectId,
+      ref: "organization",
+      required: true
+    },
     title: {
       type: String,
       required: true

@@ -1,9 +1,14 @@
 const Crowdfunding = require("../models/Crowdfunding");
+const Organization = require("../models/Organization");
+
 exports.createCrowdfunding = async (req, res) => {
     try {
      console.log(req.body);
-      const {title, description, totalAmount } = req.body;
-      await Crowdfunding.create({title, description, totalAmount}); 
+      const {orgId,title, description, totalAmount } = req.body;
+      const crowdfundingPost=await Crowdfunding.create({orgId,title, description, totalAmount}); 
+      await Organization.findByIdAndUpdate(orgId, {
+        $push: { crowdfunding: crowdfundingPost }
+    });
       res.status(201).json({
         status: "success",
         data: {

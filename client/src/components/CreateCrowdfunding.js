@@ -3,12 +3,14 @@ import React from "react";
 import Api, { responseErrorHandler } from "../utils/Api/Api";
 import { toast } from "react-toastify";
 import Input from "./Input";
+import { getUserId } from "../utils/jwtUtil";
 
 
 const Crowdfunding = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 	const [totalAmount, setTotalAmount] = useState(0);
+	const orgId=getUserId();
     const submit = async () => {
 		if (title.length<3) {
 			return toast.error("Invalid Title");
@@ -24,7 +26,7 @@ const Crowdfunding = () => {
 	
 		try {
 			const response =  await Api.crowdfunding.create({
-                title, description, totalAmount
+                orgId, title, description, totalAmount
             });
 					
 			toast.update(toastElement, {
