@@ -12,4 +12,11 @@ module.exports = (app) => {
   app.post("/api/user/login", UserController.loginUser);
   app.post("/api/org/register", OrganizationController.registerOrganization);
   app.post("/api/org/login", OrganizationController.loginOrganization);
+
+  app.route("/api/user/assistance")
+    .post(auth.loginRequired, UserController.createAssistanceRequest)
+    .get(auth.loginRequired, UserController.getAssistanceRequest);
+
+  app.route("/api/user/assistance/accept")
+    .post(auth.loginRequired, UserController.acceptAssistanceRequest);
 };

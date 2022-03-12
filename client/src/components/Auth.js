@@ -20,7 +20,7 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 		if (!signIn && name.length < 3) {
 			return toast.error("Invalid Name");
 		}
-		if (!signIn && address.length < 3) {
+		if (!signIn && userType === "org" && address.length < 3) {
 			return toast.error("Invalid Address");
 		}
 		if (password.length < 8) {
@@ -31,21 +31,21 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 		);
 		try {
 			const response = signIn
-				? await Api.auth.signIn({ email, password })
+				? await Api.auth.signIn({ email, password, userType })
 				: userType == "org"
-				? await Api.auth.signUp({
+					? await Api.auth.signUp({
 						email,
 						password,
 						name,
 						address,
 						userType,
-				  })
-				: await Api.auth.signUp({
+					})
+					: await Api.auth.signUp({
 						email,
 						password,
 						name,
 						userType,
-				  });
+					});
 			toast.update(toastElement, {
 				render: signIn
 					? "Logged In Successfully"
@@ -74,7 +74,7 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 			</h2>
 			{!signIn && <Input label="Full Name" name="name" setter={setName} />}
 			<Input label="Email" type="email" setter={setEmail} />
-			{!signIn && <Input label="Address" name="address" setter={setAddress} />}
+			{!signIn && userType === "org" && <Input label="Address" name="address" setter={setAddress} />}
 			{/* {!signIn && (
 				<Radio
 					label="Role"

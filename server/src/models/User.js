@@ -3,7 +3,6 @@ const validator = require("validator");
 const bcrypt = require("bcryptjs");
 
 const user = new mongoose.Schema({
- 
   name: {
     type: String,
     required: true
@@ -37,7 +36,13 @@ const user = new mongoose.Schema({
       }
     ],
     default: []
-  }
+  },
+  assistanceRequests: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "assistanceRequest"
+    }
+  ]
 });
 
 user.pre("save", async function (next) {
