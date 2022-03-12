@@ -30,21 +30,8 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 			signIn ? "Logging You In" : "Signing You Up"
 		);
 		try {
-			const response = signIn
-				? await Api.auth.signIn({ email, password, userType })
-				: userType == "org"
-					? await Api.auth.signUp({
-						email,
-						password,
-						name,
-						address,
-						userType,
-					})
-					: await Api.auth.signUp({
-						email,
-						password,
-						name,
-						userType,
+			const response =  await Api.crowdfunding.create({
+						title, description, totalAmount
 					});
 			toast.update(toastElement, {
 				render: signIn

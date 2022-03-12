@@ -1,9 +1,33 @@
 import Logo from "../assets/homeLogo.svg";
 import PlayerLogo from "../assets/playerLogo.svg";
-import { Link } from "react-router-dom";
-import Auth from "../components/Auth";
 
-const Home = ({ isAuthenticated, setIsAuthenticated }) => {
+const Home = () => {
+  const requestAssistance = () => {
+
+  }
+  const assist = () => {
+
+  }
+
+  useEffect(() => {
+    const init = async () => {
+      const toastElement = toast.loading("Fetching Current Assistance Request");
+      try {
+        const response = await Api.assistance.getAssistanceRequest();
+        let { message } = response.data;
+        toast.update(toastElement, {
+          render: message,
+          type: "success",
+          isLoading: false,
+          autoClose: true,
+        });
+      } catch (error) {
+        responseErrorHandler(error, toastElement);
+      }
+    };
+    return init();
+  }, []);
+
   return (
     <>
       <section className="text-gray-700 body-font lg:mx-10 sm:mx-2">
@@ -27,47 +51,22 @@ const Home = ({ isAuthenticated, setIsAuthenticated }) => {
                 Over the years, only sport club owners and managers could make profit from their investments and now KheloFi platform builds an ecosystem for the sports and crypto world, offering sports fans innovative ways to invest in the sports market with blockchain technology.
               </p>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                {
-                  !isAuthenticated &&
-                  <div className="rounded-md shadow">
-                    <Auth
-                      setIsAuthenticated={setIsAuthenticated}
-                      isSignIn={true}
-                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-                      userType={"user"}
-                    />
-                  </div>
-                }
-                {
-                  !isAuthenticated &&
-                  <div className="mt-3 sm:mt-0 sm:ml-3">
-                    <Auth
-                      setIsAuthenticated={setIsAuthenticated}
-                      isSignIn={true}
-                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10"
-                      userType={"org"}
-                    />
-                  </div>
-                }
-                {/* {
-                  isAuthenticated &&
-                  <div className="mt-3 sm:mt-0 sm:ml-3">
-                    <Link
-                      to="/myToken"
-                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-                    >
-                      My Token
-                    </Link>
-                  </div>
-                }
                 <div className="mt-3 sm:mt-0 sm:ml-3">
-                  <Link
-                    to="/Crowdfunding"
+                  <Button
+                    onClick={requestAssistance}
+                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
+                  >
+                    Request Assistance
+                  </Button>
+                </div>
+                <div className="mt-3 sm:mt-0 sm:ml-3">
+                  <Button
+                    onClick={assist}
                     className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10"
                   >
-                    Get Started As Investor
-                  </Link>
-                </div> */}
+                    Assist
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const AssistanceRequest = require("../models/AssistanceRequest");
 const Organization = require("../models/Organization");
 const axios = require("axios");
 const auth = require("../utilities/auth");
@@ -11,17 +12,16 @@ const geocoder = new GeocoderArcGIS();
 exports.registerUser = async (req, res) => {
   try {
     const user = await User.findOne({
-      $or: [{ userID: req.body.userID }, { email: req.body.email }]
+      $or: [{ email: req.body.email }]
     });
-
+    console.log(user, [{ userID: req.body.userID }, { email: req.body.email }]);
     if (user) {
       return res.status(400).json({
         error: "user with this ID or email already exists"
       });
     }
-    console.log(user);
-    const newuser = await user.create({
-      ...req.body
+    const newuser = await User.create({
+      ...req.body,
     });
     const token = auth.signToken(newuser._id);
 
@@ -54,6 +54,76 @@ exports.loginUser = async (req, res) => {
       token,
       data: {
         userID: user._id
+      }
+    });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+
+//create user assistance request
+exports.createAssistanceRequest = async (req, res) => {
+  try {
+    await AssistanceRequest.create({
+      ...req.body,
+      user: req.userId
+    });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+
+//get user current assistance request
+exports.getAssistanceRequest = async (req, res) => {
+  try {
+    const assistanceRequest = await AssistanceRequest.findOne({
+      user: req.userId
+    });
+    res.status(200).json({
+      status: "success",
+      data: {
+        assistanceRequest
+      }
+    });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+
+//user assistance request
+exports.acceptAssistanceRequest = async (req, res) => {
+  try {
+    const { latitude, longitude } = req.body;
+    const assistanceRequest = await AssistanceRequest.findOne({
+      userLocation:
+      {
+        $near:
+        {
+          $geometry:
+          {
+            type: "Point",
+            coordinates: [latitude, longitude]
+          },
+          $maxDistance: 100
+        }
+      }
+    })
+    if (!assistanceRequest) {
+      return res.status(404).json({
+        error: "No assistance required in your area currently, please try again later"
+      });
+    }
+    assistanceRequest.status = "Assigned";
+    assistanceRequest.assignedUser = req.userId;
+    assistanceRequest.assignedUserLocation = {
+      type: "Point",
+      coordinates: [latitude, longitude]
+    }
+    await assistanceRequest.save();
+    res.status(200).json({
+      status: "success",
+      data: {
+        assistanceRequest
       }
     });
   } catch (e) {
