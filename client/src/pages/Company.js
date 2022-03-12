@@ -14,16 +14,16 @@ const teamMembers = [
 			"DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware.",
 	},
 	{
-		name: "Srushti Shah",
-		position: "Frontend Developer",
-		image: "https://avatars.githubusercontent.com/u/45996161?v=4",
+		name: "Palak Mantri",
+		position: "Full Stack Developer",
+		image: "https://avatars.githubusercontent.com/u/50794716?v=4",
 		description:
 			"DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware.",
 	},
 	{
-		name: "Mohommad Mehdi",
-		position: "Frontend Developer",
-		image: "https://avatars.githubusercontent.com/u/26627849?v=4",
+		name: "Premsing Rathod",
+		position: "Full Stack Developer",
+		image: "https://avatars.githubusercontent.com/u/50791267?v=4",
 		description:
 			"DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware.",
 	},
@@ -38,7 +38,9 @@ const Company = () => {
 						OUR TEAM
 					</h1>
 					<p className="lg:w-2/3 mx-auto leading-relaxed text-base">
-						We have an amazing team that has enourmous experience in web, mobile and blockchain developement along with knowledge about the sports market.
+						We have an amazing team that has enourmous experience in web, mobile
+						and blockchain developement along with knowledge about the sports
+						market.
 					</p>
 				</div>
 				<div className="flex flex-wrap -m-4">

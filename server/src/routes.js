@@ -1,6 +1,7 @@
 const UserController = require("./controllers/UserController");
 const OrganizationController = require("./controllers/OrganizationController");
 const CrowdfundingController = require("./controllers/CrowdfundingController");
+const CampaignController = require("./controllers/CampaignController");
 const uploader = require("./utilities/uploader");
 const auth = require("./middleware/auth");
 
@@ -14,14 +15,6 @@ module.exports = (app) => {
   app.post("/api/org/register", OrganizationController.registerOrganization);
   app.post("/api/org/login", OrganizationController.loginOrganization);
 
-  app.get("/api/crowdfunding/getAllPosts", CrowdfundingController.showAllPosts);
-  app
-    .route("/api/org/crowdfunding/:orgId")
-    .get(
-      auth.loginRequired,
-      CrowdfundingController.showParticularOrgnaisationPost
-    );
-
   app
     .route("/api/user/assistance")
     .post(auth.loginRequired, UserController.createAssistanceRequest)
@@ -30,6 +23,10 @@ module.exports = (app) => {
   app
     .route("/api/user/assistance/accept")
     .post(auth.loginRequired, UserController.acceptAssistanceRequest);
+
+  app.route("/api/user/assistance/complete")
+    .post(auth.loginRequired, UserController.completeAssistanceRequest);
+
   app.post("/api/user/chatbot", UserController.chatbot);
 
   app
@@ -37,4 +34,20 @@ module.exports = (app) => {
     .post(auth.loginRequired, CrowdfundingController.createCrowdfunding);
 
   app.route("api/user/donate/:paymentId").post(auth.loginRequired, CrowdfundingController.makeTransaction);
+  app.get("/api/crowdfunding/getAllPosts", CrowdfundingController.showAllPosts);
+  app
+    .route("/api/org/crowdfunding/:orgId")
+    .get(
+      auth.loginRequired,
+      CrowdfundingController.showParticularOrgnaisationPost
+    );
+  //add org in url
+  app
+    .route("/api/campaign/create")
+    .post(auth.loginRequired, CampaignController.createCampaign);
+
+  app.get("/api/campaign/getAllCampaigns", CampaignController.showAllCampaigns);
+  app
+    .route("/api/org/campaigns/:orgId")
+    .get(auth.loginRequired, CampaignController.showParticularCampaign);
 };

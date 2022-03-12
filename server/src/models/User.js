@@ -23,7 +23,7 @@ const user = new mongoose.Schema({
     type: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "crowfunding"
+        ref: "crowdfunding"
       }
     ],
     default: []
@@ -51,12 +51,15 @@ const user = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "assistanceRequest"
     }
-  ]
+  ],
+  status: {
+    type: String,
+    default: "no-disability",
+  }
 });
 
 user.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
-
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
