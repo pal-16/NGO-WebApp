@@ -3,8 +3,10 @@ const Schema = mongoose.Schema;
 
 const TransactionSchema = new Schema(
   {
-   
-    crowdfundingPostId: {
+   amount:{
+     type:Number
+   },
+   postId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "crowfunding"    
    },
@@ -17,6 +19,9 @@ const TransactionSchema = new Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: "organization"
     },
+    paymentId:{
+      type:String
+    }
   },
   { timestamps: true }
 );

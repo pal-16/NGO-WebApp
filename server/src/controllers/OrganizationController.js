@@ -10,20 +10,14 @@ const geocoder = new GeocoderArcGIS();
 //Register Organization
 exports.registerOrganization = async (req, res) => {
   try {
-    const organization = await Organization.findOne({
-      $or: [
+    const org = await Organization.findOne({ email }).select("+password");
 
-        { email: req.body.email }
-      ]
-    });
-
-    if (organization) {
-      return res.status(400).json({
-        error: "Organization with this ID or email already exists"
-      });
+    if (!org || !(await org.correctPassword(password, org.password))) {
+      return res.status(401).json({ error: "Incorrect email or password" });
     }
 
-    const { name, email, address } = req.body;
+ 
+    const { name, email, address, password } = req.body;
 
     let loc = [];
 
@@ -35,6 +29,7 @@ exports.registerOrganization = async (req, res) => {
     const newOrganization = await Organization.create({
       name,
       email,
+      password,
       address,
       location
     });
@@ -63,7 +58,7 @@ exports.loginOrganization = async (req, res) => {
 
     if (
       !organization ||
-      !(await Organization.correctPassword(password, organization.password))
+      !(await organization.correctPassword(password, organization.password))
     ) {
       return res.status(401).json({ error: "Incorrect email or password" });
     }

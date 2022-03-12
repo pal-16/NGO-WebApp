@@ -33,7 +33,7 @@ module.exports = (app) => {
     .route("/api/crowdfunding/create")
     .post(auth.loginRequired, CrowdfundingController.createCrowdfunding);
 
-  app.route("api/user/donate/:paymentId").post(auth.loginRequired, CrowdfundingController.makeTransaction);
+  app.route("/api/user/donate").post(auth.loginRequired, CrowdfundingController.makeTransaction);
   app.get("/api/crowdfunding/getAllPosts", CrowdfundingController.showAllPosts);
   app
     .route("/api/org/crowdfunding/:orgId")

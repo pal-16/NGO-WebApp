@@ -11,7 +11,8 @@ const CrowdfundingApi = {
 		return axios.get(`/org/crowdfunding` + `${orgId}`);
 	},
 	makeTransaction: ({ amount, postId, orgId, userId, paymentId }) => {
-		return axios.post(`/user/donate/` + paymentId, { amount, postId, orgId, userId, paymentId })
+		console.log("API called")
+		return axios.post(`/user/donate`, { amount, postId, orgId, userId, paymentId })
 	}
 };
 

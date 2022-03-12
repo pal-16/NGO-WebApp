@@ -6,7 +6,7 @@ import Input from "./Input";
 import { getUserId } from "../utils/jwtUtil";
 
 
-const Crowdfunding = () => {
+const CreateCrowdfunding = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 	const [totalAmount, setTotalAmount] = useState(0);
@@ -66,4 +66,4 @@ const Crowdfunding = () => {
 	);
 };
 
-export default Crowdfunding;
+export default CreateCrowdfunding;

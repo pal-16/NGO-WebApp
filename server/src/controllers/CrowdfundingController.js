@@ -1,5 +1,7 @@
 const Crowdfunding = require("../models/Crowdfunding");
 const Organization = require("../models/Organization");
+const Transaction = require("../models/Transaction");
+const User = require("../models/User");
 
 exports.createCrowdfunding = async (req, res) => {
   try {
@@ -53,6 +55,8 @@ exports.createCrowdfunding = async (req, res) => {
 
   exports.makeTransaction = async (req, res) => {
     try {
+      console.log("====================");
+console.log(req.body);
 
       const {amount,postId,orgId,userId,paymentId } = req.body;
       const transaction=await Transaction.create({amount,postId,orgId,userId,paymentId}); 
@@ -72,6 +76,7 @@ exports.createCrowdfunding = async (req, res) => {
         }
       });
     } catch (e) {
+      console.log(e.message)
       return res.status(500).json({ error: e.message });
     }
   };

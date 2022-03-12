@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const bcrypt = require("bcryptjs");
 
-const OrganizationSchema = new Schema(
+const org = new Schema(
   {
     name: {
       type: String,
@@ -19,6 +20,11 @@ const OrganizationSchema = new Schema(
         }
       ],
       default: []
+    },
+    password: {
+      type: String,
+      required: true,
+      select: false
     },
     campaign: {
       type: [
@@ -71,7 +77,22 @@ const OrganizationSchema = new Schema(
   },
   { timestamps: true }
 );
-OrganizationSchema.index({ location: "2dsphere" });
-const Organization = mongoose.model("organization", OrganizationSchema);
+
+org.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
+
+org.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+
+org.index({ location: "2dsphere" });
+const Organization = mongoose.model("organization", org);
 
 module.exports = Organization;

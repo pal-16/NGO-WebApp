@@ -25,8 +25,9 @@ const TransactionModal = ({ postId, orgId, close }) => {
         try {
           const paymentId = response.razorpay_payment_id;
           const res = await Api.crowdfunding.makeTransaction({ amount, postId, orgId, userId, paymentId });
+          console.log("Razorpay")
           console.log(res);
-          return close();
+         return close();
         } catch (err) {
           console.log(err);
         }
@@ -50,7 +51,7 @@ const TransactionModal = ({ postId, orgId, close }) => {
   );
 };
 
-const Crowdfunding = () => {
+const UserCrowdfunding = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
@@ -145,4 +146,4 @@ const Crowdfunding = () => {
 
 };
 
-export default Crowdfunding;
+export default UserCrowdfunding;
