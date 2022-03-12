@@ -1,4 +1,4 @@
-const CVreateCampaign = () => {
+const CreateCampaign = () => {
   return <></>
 }
 
