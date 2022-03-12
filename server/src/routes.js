@@ -7,9 +7,9 @@ module.exports = (app) => {
     res.json("Connected");
   });
 
-   app.post("/api/user/register", UserController.registerUser);
-    app.post("/api/user/login", UserController.loginUser);
+  app.post("/api/user/register", UserController.registerUser);
+  app.post("/api/user/login", UserController.loginUser);
   // app.post("/api/org/register", UserController.registerStudent);
   // app.post("/api/org/login", UserController.loginStudent);
- 
+
 };
