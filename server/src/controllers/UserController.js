@@ -14,7 +14,7 @@ exports.registerUser = async (req, res) => {
         error: "user with this ID or email already exists"
       });
     }
-
+    console.log(user);
     const newuser = await user.create({
       ...req.body,
     });

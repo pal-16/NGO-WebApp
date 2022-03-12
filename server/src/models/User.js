@@ -37,15 +37,6 @@ const user = new mongoose.Schema({
       }
     ],
     default: []
-  },
-  session: {
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "session"
-      }
-    ],
-    default: []
   }
 });
 
@@ -65,4 +56,4 @@ user.methods.correctPassword = async function (
 
 const User = mongoose.model("user", user);
 
-module.exports = user;
+module.exports = User;

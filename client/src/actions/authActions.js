@@ -39,7 +39,7 @@ export const register = async ({ dispatch, user, userType }) => {
     console.log(user)
     console.log("=======");
     console.log(BASE_URL);
-    const res = await axios.post(BASE_URL + `/user/register`, {
+    const res = await axios.post(`http://localhost:8000/api/user/register`, {
       ...user
     });
     dispatch({
