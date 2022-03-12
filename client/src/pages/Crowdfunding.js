@@ -8,26 +8,27 @@ import Popup from "../components/Popup/Popup";
 import Input from "../components/Input";
 import { getUserId } from "../utils/jwtUtil";
 
-const TransactionModal = ({postId,orgId}) => {
- 
+const TransactionModal = ({ postId, orgId, close }) => {
+
   const [money, setMoney] = useState(0);
-	const userId=getUserId();
+  const userId = getUserId();
   const paymentHandler = async (e) => {
     e.preventDefault();
-    let amount=money*100;
+    let amount = money * 100;
     const options = {
       key: "rzp_test_OD9eywpWYm0Jh3",
       name: "Lend A Hand",
       description: "Your Payment Details",
       amount: amount,
       handler: async (response) => {
-    
+
         try {
-        const paymentId = response.razorpay_payment_id;
-         const res = await Api.crowdfunding.makeTransaction({amount,postId,orgId,userId,paymentId});
-         return close();
+          const paymentId = response.razorpay_payment_id;
+          const res = await Api.crowdfunding.makeTransaction({ amount, postId, orgId, userId, paymentId });
+          console.log(res);
+          return close();
         } catch (err) {
-         console.log(err);
+          console.log(err);
         }
       },
       theme: {
@@ -37,33 +38,33 @@ const TransactionModal = ({postId,orgId}) => {
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
   };
-	return (
-  
-		<div className="bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 modal">
-			<h2 className="text-gray-900 text-lg font-medium title-font mb-5">
-    
-			</h2>
-      <Input label="Money" type="money" setter={setMoney}/>
+  return (
+
+    <div className="bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 modal">
+      <h2 className="text-gray-900 text-lg font-medium title-font mb-5">
+
+      </h2>
+      <Input label="Money" type="money" setter={setMoney} />
       <button onClick={paymentHandler}>Submit</button>
-		</div>
-	);
+    </div>
+  );
 };
 
 const Crowdfunding = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  
-  useEffect(() => { 
+
+  useEffect(() => {
     Api.crowdfunding.getAllPosts().then((res) => {
-  
+
       console.log(res)
-   
+
       console.log(res.data.data.allPosts)
       setPosts(res.data.data.allPosts);
     });
-	  setIsLoading(false);
-	},[]);
+    setIsLoading(false);
+  }, []);
 
   return (
     <section className="text-gray-600 body-font lg:mx-10 sm:mx-2">
@@ -99,7 +100,7 @@ const Crowdfunding = () => {
 
                   </h3>
                   <h2 className="text-lg text-gray-900 font-medium title-font m-auto">
-                    {token.title} 
+                    {token.title}
                   </h2>
                   <div className="flex mb-1 w-50">
                     <span className="flex items-center">
@@ -116,23 +117,23 @@ const Crowdfunding = () => {
                   <div className="flex m-auto">
                     <CurrencyDollarIcon className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-indigo-500 ml-4" />
                     <span className="title-font font-medium text-sm text-gray-900 m-auto">
-                      Balance {token.amountNeeded} 
-                     </span>
+                      Balance {token.amountNeeded}
+                    </span>
                   </div>
                   <p className="mt-1 leading-relaxed text-base">
-                 
+
                   </p>
                   <Popup
-                  Button={
-                    <button className={"w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"}>
-                    Donate Money
-                    </button>
-                  }
-                  Modal={TransactionModal}
-                  orgId={token.orgId}
-                  postId={token._id}
-                />
-             
+                    Button={
+                      <button className={"w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"}>
+                        Donate Money
+                      </button>
+                    }
+                    Modal={TransactionModal}
+                    orgId={token.orgId}
+                    postId={token._id}
+                  />
+
                 </div>
               </div>
             );
@@ -141,7 +142,7 @@ const Crowdfunding = () => {
       </div>
     </section>
   );
-        
+
 };
 
 export default Crowdfunding;

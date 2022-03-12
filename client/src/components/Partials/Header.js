@@ -11,13 +11,12 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline'
 const navigation = [
   { name: 'Product', href: '/' },
   { name: 'Features', href: '/features' },
-  { name: 'Crowdfunding', href: '/Crowdfunding' },
   { name: 'Company', href: '/company' },
-  { name: 'Assistance', href: '/assistance' },
 ]
 
 const Header = ({ isAuthenticated, setIsAuthenticated }) => {
   const navigate = useNavigate();
+  const userType = localStorage.getItem('userType');
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -60,8 +59,24 @@ const Header = ({ isAuthenticated, setIsAuthenticated }) => {
                 {
                   isAuthenticated &&
                   <>
-                    <Link to="/myToken" className="font-medium text-indigo-600 hover:text-indigo-500">
-                      My Token
+                    <Link to="/UserCrowdFunding" className="font-medium text-indigo-600 hover:text-indigo-500">
+                      View Crowd Funds
+                    </Link>
+                  </>
+                }
+                {
+                  isAuthenticated && userType === 'org' &&
+                  <>
+                    <Link to="/CrowdFunding" className="font-medium text-indigo-600 hover:text-indigo-500">
+                      Create Crowd Fund
+                    </Link>
+                  </>
+                }
+                {
+                  isAuthenticated && userType === 'user' &&
+                  <>
+                    <Link to="/Assistance" className="font-medium text-indigo-600 hover:text-indigo-500">
+                      Assistance
                     </Link>
                   </>
                 }
