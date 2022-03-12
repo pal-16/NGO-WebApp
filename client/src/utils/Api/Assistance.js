@@ -3,7 +3,7 @@ import axios from "./axios.js";
 const AssistanceApi = {
   createAssistanceRequest: ({ latitude, longitude }) => {
     return axios.post(`/user/assistance`, {
-      location: {
+      userlocation: {
         type: "Point",
         coordinates: [latitude, longitude]
       }
@@ -18,6 +18,9 @@ const AssistanceApi = {
       longitude
     });
   },
+  completeAssistanceRequest: () => {
+    return axios.post(`/user/assistance/complete`);
+  }
 };
 
 export default AssistanceApi;

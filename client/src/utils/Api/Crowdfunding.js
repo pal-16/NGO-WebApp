@@ -10,6 +10,9 @@ const CrowdfundingApi = {
 	getParticular:({orgId})=>{
 		return axios.get(`/org/crowdfunding`+`${orgId}`);
 	},
+	makeTransaction:({amount,postId,currOrgId,userId,paymentId})=>{
+		return axios.post(`/user/donate/`+paymentId,{amount,postId,currOrgId,userId,paymentId})
+	}
 };
 
 export default CrowdfundingApi;

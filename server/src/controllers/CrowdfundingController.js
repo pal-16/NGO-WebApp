@@ -23,32 +23,56 @@ exports.createCrowdfunding = async (req, res) => {
   }
 };
 
-exports.showAllPosts = async (req, res) => {
-  try {
-    const allPosts = await Crowdfunding.find({});
-    res.status(201).json({
-      status: "success",
-      data: {
-        allPosts
-      }
-    });
-  } catch (e) {
-    return res.status(500).json({ error: e.message });
-  }
-};
+  exports.showAllPosts = async (req, res) => {
+    try {
+      const allPosts = await Crowdfunding.find({});
+      res.status(201).json({
+        status: "success",
+        data: {
+          allPosts
+        }
+      });
+    } catch (e) {
+      return res.status(500).json({ error: e.message });
+    }
+  };
+  
+  exports.showParticularOrgnaisationPost = async (req, res) => {
+    try {
+      const posts = await Crowdfunding.findById(req.params.orgId);
+      res.status(201).json({
+        status: "success",
+        data: {
+          posts
+        }
+      });
+    } catch (e) {
+      return res.status(500).json({ error: e.message });
+    }
+  };
 
-exports.showParticularOrgnaisationPost = async (req, res) => {
-  try {
-    const posts = await Organization.findById(req.params.orgId).populate(
-      "crowdfunding"
-    );
-    res.status(201).json({
-      status: "success",
-      data: {
-        posts
-      }
+  exports.makeTransaction = async (req, res) => {
+    try {
+
+      const {amount,postId,orgId,userId,paymentId } = req.body;
+      const transaction=await Transaction.create({amount,postId,orgId,userId,paymentId}); 
+   
+      await Organization.findByIdAndUpdate(orgId, {
+        $push: { transaction:transaction }
     });
-  } catch (e) {
-    return res.status(500).json({ error: e.message });
-  }
-};
+      await User.findByIdAndUpdate(userId, {
+        $push: { transaction:transaction  }
+    }); 
+      await Crowdfunding.findByIdAndUpdate(postId, {
+      $push: { transaction:transaction   }
+  });
+      res.status(201).json({
+        status: "success",
+        data: {
+        }
+      });
+    } catch (e) {
+      return res.status(500).json({ error: e.message });
+    }
+  };
+

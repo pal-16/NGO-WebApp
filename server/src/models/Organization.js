@@ -58,6 +58,15 @@ const OrganizationSchema = new Schema(
         type: [Number],
         required: true
       }
+    },
+    transaction: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "transaction"
+        }
+      ],
+      default: []
     }
   },
   { timestamps: true }

@@ -23,12 +23,17 @@ module.exports = (app) => {
   app
     .route("/api/user/assistance/accept")
     .post(auth.loginRequired, UserController.acceptAssistanceRequest);
+
+  app.route("/api/user/assistance/complete")
+    .post(auth.loginRequired, UserController.completeAssistanceRequest);
+
   app.post("/api/user/chatbot", UserController.chatbot);
 
   app
     .route("/api/crowdfunding/create")
     .post(auth.loginRequired, CrowdfundingController.createCrowdfunding);
 
+  app.route("api/user/donate/:paymentId").post(auth.loginRequired, CrowdfundingController.makeTransaction);
   app.get("/api/crowdfunding/getAllPosts", CrowdfundingController.showAllPosts);
   app
     .route("/api/org/crowdfunding/:orgId")

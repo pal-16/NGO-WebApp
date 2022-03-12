@@ -12,7 +12,8 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 	const [password, setPassword] = useState("");
 	const [address, setAddress] = useState("");
 	const [name, setName] = useState("");
-	const [role, setRole] = useState("student");
+	const [status, setStatus] = useState("no-disablility");
+
 	const submit = async () => {
 		if (!validator.isEmail(email)) {
 			return toast.error("Invalid Email Address");
@@ -45,6 +46,7 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 						password,
 						name,
 						userType,
+						status
 					});
 			toast.update(toastElement, {
 				render: signIn
@@ -75,25 +77,25 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 			{!signIn && <Input label="Full Name" name="name" setter={setName} />}
 			<Input label="Email" type="email" setter={setEmail} />
 			{!signIn && userType === "org" && <Input label="Address" name="address" setter={setAddress} />}
-			{/* {!signIn && (
+			{!signIn && userType === "user" && (
 				<Radio
-					label="Role"
-					value={role}
-					setter={setRole}
+					label="Disability Status"
+					value={status}
+					setter={setStatus}
 					options={[
 						{
-							label: "Team",
-							value: "team",
-							name: "role",
+							label: "No Disability",
+							value: "no-disability",
+							name: "status",
 						},
 						{
-							label: "Athlete",
-							value: "athlete",
-							name: "role",
+							label: "Disability",
+							value: "disability",
+							name: "status",
 						},
 					]}
 				/>
-			)} */}
+			)}
 			<Input label="Password" type="password" setter={setPassword} />
 			<button
 				onClick={submit}

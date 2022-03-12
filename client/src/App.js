@@ -11,6 +11,8 @@ import Footer from "./components/Partials/Footer";
 import Loader from "./components/Loader/Loader";
 const Home = React.lazy(() => import("./pages/Home"));
 const Crowdfunding = React.lazy(() => import("./components/CreateCrowdfunding"));
+const UserCrowdfunding = React.lazy(() => import("./pages/Crowdfunding"));
+
 const Token = React.lazy(() => import("./pages/Token"));
 const Company = React.lazy(() => import("./pages/Company"));
 const Features = React.lazy(() => import("./pages/Features"));
@@ -18,6 +20,7 @@ const MyToken = React.lazy(() => import("./pages/MyToken"));
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Polls = React.lazy(() => import("./pages/Polls"));
 const Stat = React.lazy(() => import("./pages/Stat"));
+const Assistance = React.lazy(() => import("./pages/Assistance"));
 
 const App = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(isLoggedIn());
@@ -54,7 +57,12 @@ const App = () => {
 						<Route path="/company" exact element={<Company />} />
 						<Route path="/features" exact element={<Features />} />
 						<Route path="/Crowdfunding" exact element={<Crowdfunding />} />
+						<Route path="/UserCrowdfunding" exact element={<UserCrowdfunding />} />
 						<Route path="/Crowdfunding/:tokenID" element={<Token />} />
+						<Route
+							path="/assistance"
+							element={isAuthenticated ? <Assistance /> : <Navigate to="/" />}
+						/>
 						<Route
 							path="/myToken"
 							element={isAuthenticated ? <MyToken /> : <Navigate to="/" />}
