@@ -3,7 +3,10 @@ const AssistanceRequest = require("../models/AssistanceRequest");
 const Organization = require("../models/Organization");
 const axios = require("axios");
 const auth = require("../utilities/auth");
-const { WebhookClient } = require("dialogflow-fulfillment");
+const dfff = require("dialogflow-fulfillment");
+const GeocoderArcGIS = require("geocoder-arcgis");
+
+const geocoder = new GeocoderArcGIS();
 
 //Register user
 exports.registerUser = async (req, res) => {
@@ -130,38 +133,29 @@ exports.acceptAssistanceRequest = async (req, res) => {
 
 exports.chatbot = async (req, res) => {
   try {
-    const agent = new WebhookClient({ request: req, response: res });
-    // async function getNearOrganization(agent){
-
-    // }
-    const location =
-      agent.context.get("location").parameters["location.original"];
-    console.log(location);
-    try {
-      var payloadData = {
-        richContent: [
-          [
-            {
-              type: "info",
-              title: `You might be suffering from .We have found the following doctors nearest to your location best treating the disease you are suffering from `
+    const agent = new dfff.WebhookClient({ request: req, response: res });
+    const location = await agent.context.get("location").parameters[
+      "location.original"
+    ];
+    const result = await geocoder.findAddressCandidates(location, {});
+    async function getNearOrganization(agent) {
+      const orgs = await Organization.find({
+        location: {
+          $near: {
+            $geometry: {
+              type: "Point",
+              coordinates: [
+                result.candidates[0].location.x,
+                result.candidates[0].location.y
+              ]
             }
-          ]
-        ]
-      };
-    } catch (err) {
-      console.log(err);
-      var payloadData = {
-        richContent: [
-          [
-            {
-              type: "info",
-              title: `I couldn 't understand you.'
-												`
-            }
-          ]
-        ]
-      };
+          }
+        }
+      });
+      console.log(orgs);
     }
+
+    var payloadData = {};
     agent.add(
       new dfff.Payload(agent.UNSPECIFIED, payloadData, {
         sendAsMessage: true,
@@ -175,16 +169,10 @@ exports.chatbot = async (req, res) => {
       );
     }
     var intentMap = new Map();
-    intentMap.set("get_current_location", getDoctorDetails);
+    intentMap.set("get_current_location", getNearOrganization);
     agent.handleRequest(intentMap);
-
-    const token = auth.signToken(user._id);
-    res.status(200).json({
-      status: "success",
-      token,
-      data: {}
-    });
   } catch (e) {
+    console.log(e);
     return res.status(500).json({ error: e.message });
   }
 };
