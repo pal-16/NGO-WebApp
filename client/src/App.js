@@ -12,6 +12,8 @@ import Loader from "./components/Loader/Loader";
 const Home = React.lazy(() => import("./pages/Home"));
 const Crowdfunding = React.lazy(() => import("./components/CreateCrowdfunding"));
 const UserCrowdfunding = React.lazy(() => import("./pages/Crowdfunding"));
+const Campaign = React.lazy(() => import("./pages/Campaign"));
+const CreateCampaign = React.lazy(() => import("./pages/CreateCampaign"));
 
 const Token = React.lazy(() => import("./pages/Token"));
 const Company = React.lazy(() => import("./pages/Company"));
@@ -56,6 +58,8 @@ const App = () => {
 						/>
 						<Route path="/company" exact element={<Company />} />
 						<Route path="/features" exact element={<Features />} />
+						<Route path="/Campaign" exact element={isAuthenticated ? <Campaign /> : <Navigate to="/" />} />
+						<Route path="/createCampaign" exact element={isAuthenticated ? <CreateCampaign /> : <Navigate to="/" />} />
 						<Route path="/Crowdfunding" exact element={isAuthenticated ? <Crowdfunding /> : <Navigate to="/" />} />
 						<Route path="/UserCrowdfunding" exact element={isAuthenticated ? <UserCrowdfunding /> : <Navigate to="/" />} />
 						<Route path="/Crowdfunding/:tokenID" element={isAuthenticated ? <Token /> : <Navigate to="/" />} />
