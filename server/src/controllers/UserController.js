@@ -21,7 +21,7 @@ exports.registerUser = async (req, res) => {
       });
     }
     const newuser = await User.create({
-      ...req.body,
+      ...req.body
     });
     const token = auth.signToken(newuser._id);
 
@@ -95,22 +95,20 @@ exports.acceptAssistanceRequest = async (req, res) => {
   try {
     const { latitude, longitude } = req.body;
     const assistanceRequest = await AssistanceRequest.findOne({
-      userLocation:
-      {
-        $near:
-        {
-          $geometry:
-          {
+      userLocation: {
+        $near: {
+          $geometry: {
             type: "Point",
             coordinates: [latitude, longitude]
           },
           $maxDistance: 100
         }
       }
-    })
+    });
     if (!assistanceRequest) {
       return res.status(404).json({
-        error: "No assistance required in your area currently, please try again later"
+        error:
+          "No assistance required in your area currently, please try again later"
       });
     }
     assistanceRequest.status = "Assigned";
@@ -118,7 +116,7 @@ exports.acceptAssistanceRequest = async (req, res) => {
     assistanceRequest.assignedUserLocation = {
       type: "Point",
       coordinates: [latitude, longitude]
-    }
+    };
     await assistanceRequest.save();
     res.status(200).json({
       status: "success",
@@ -138,30 +136,71 @@ exports.chatbot = async (req, res) => {
       "location.original"
     ];
     const result = await geocoder.findAddressCandidates(location, {});
+    var payloadData = {};
     async function getNearOrganization(agent) {
-      const orgs = await Organization.find({
-        location: {
-          $near: {
-            $geometry: {
-              type: "Point",
-              coordinates: [
-                result.candidates[0].location.x,
-                result.candidates[0].location.y
-              ]
+      try {
+        const orgs = await Organization.find({
+          location: {
+            $near: {
+              $geometry: {
+                type: "Point",
+                coordinates: [
+                  result.candidates[0].location.x,
+                  result.candidates[0].location.y
+                ]
+              },
+              $maxDistance: 5000
             }
           }
-        }
-      });
-      console.log(orgs);
+        });
+        orgs.length == 0
+          ? (payloadData = {
+              richContent: [
+                [
+                  {
+                    type: "info",
+                    title: `No NGO's found within 5kms`
+                  }
+                ]
+              ]
+            })
+          : (payloadData = {
+              richContent: [
+                orgs.map((organization) => {
+                  return {
+                    type: "list",
+                    title: organization.name,
+                    subtitle: organization.email,
+                    event: {
+                      name: "",
+                      languageCode: "",
+                      parameters: {}
+                    }
+                  };
+                })
+              ]
+            });
+        console.log(orgs);
+      } catch (err) {
+        console.log(err);
+        payloadData = {
+          richContent: [
+            [
+              {
+                type: "info",
+                title: `I couldn't understand you.'`
+              }
+            ]
+          ]
+        };
+      }
+      agent.add(
+        new dfff.Payload(agent.UNSPECIFIED, payloadData, {
+          sendAsMessage: true,
+          rawPayload: true
+        })
+      );
     }
-
-    var payloadData = {};
-    agent.add(
-      new dfff.Payload(agent.UNSPECIFIED, payloadData, {
-        sendAsMessage: true,
-        rawPayload: true
-      })
-    );
 
     function defaultFallback(agent) {
       agent.add(
