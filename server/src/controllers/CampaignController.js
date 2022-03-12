@@ -39,15 +39,15 @@ exports.createCampaign = async (req, res) => {
       $push: { campaign: campaign }
     });
 
-    const result = await geocoder.findAddressCandidates(location, {});
+    const locresult = await geocoder.findAddressCandidates(location, {});
     const filteredUsers = await User.find({
       location: {
         $near: {
           $geometry: {
             type: "Point",
             coordinates: [
-              result.candidates[0].location.x,
-              result.candidates[0].location.y
+              locresult.candidates[0].location.x,
+              locresult.candidates[0].location.y
             ]
           },
           $maxDistance: range * 1000
