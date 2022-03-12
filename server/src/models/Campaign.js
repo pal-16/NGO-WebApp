@@ -3,6 +3,11 @@ const Schema = mongoose.Schema;
 
 const CampaignSchema = new Schema(
   {
+    orgId: {
+      type: Schema.Types.ObjectId,
+      ref: "organization",
+      required: true
+    },
     name: {
       type: String,
       required: true
@@ -25,16 +30,16 @@ const CampaignSchema = new Schema(
       default: []
     },
     time: {
-      type: DateTime,
+      type: Date,
       required: false
     },
     date: {
-      type: Dat,
+      type: Date,
       required: false
     }
   },
   { timestamps: true }
 );
 
-const Campaign = mongoose.model("campaign", Campaignchema);
+const Campaign = mongoose.model("campaign", CampaignSchema);
 module.exports = Campaign;

@@ -1,18 +1,20 @@
-const Crowdfunding = require("../models/Crowdfunding");
+const Campaign = require("../models/Campaign");
 const Organization = require("../models/Organization");
 
-exports.createCrowdfunding = async (req, res) => {
+exports.createCampaign = async (req, res) => {
   try {
     console.log(req.body);
-    const { orgId, title, description, totalAmount } = req.body;
-    const crowdfundingPost = await Crowdfunding.create({
+    const { orgId, name, description, noOfVolunteers, time, date } = req.body;
+    const campaign = await Campaign.create({
       orgId,
-      title,
+      name,
       description,
-      totalAmount
+      noOfVolunteers,
+      time,
+      date
     });
     await Organization.findByIdAndUpdate(orgId, {
-      $push: { crowdfunding: crowdfundingPost }
+      $push: { campaign: campaign }
     });
     res.status(201).json({
       status: "success",
@@ -23,13 +25,13 @@ exports.createCrowdfunding = async (req, res) => {
   }
 };
 
-exports.showAllPosts = async (req, res) => {
+exports.showAllCampaigns = async (req, res) => {
   try {
-    const allPosts = await Crowdfunding.find({});
+    const allCampaigns = await Campaign.find({});
     res.status(201).json({
       status: "success",
       data: {
-        allPosts
+        allCampaigns
       }
     });
   } catch (e) {
@@ -37,15 +39,16 @@ exports.showAllPosts = async (req, res) => {
   }
 };
 
-exports.showParticularOrgnaisationPost = async (req, res) => {
+exports.showParticularCampaign = async (req, res) => {
   try {
-    const posts = await Organization.findById(req.params.orgId).populate(
-      "crowdfunding"
+    const campaigns = await Organization.findById(req.params.orgId).populate(
+      "campaign"
     );
+    console.log(campaigns);
     res.status(201).json({
       status: "success",
       data: {
-        posts
+        campaigns
       }
     });
   } catch (e) {

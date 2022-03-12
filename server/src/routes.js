@@ -1,6 +1,7 @@
 const UserController = require("./controllers/UserController");
 const OrganizationController = require("./controllers/OrganizationController");
 const CrowdfundingController = require("./controllers/CrowdfundingController");
+const CampaignController = require("./controllers/CampaignController");
 const uploader = require("./utilities/uploader");
 const auth = require("./middleware/auth");
 
@@ -13,14 +14,6 @@ module.exports = (app) => {
   app.post("/api/user/login", UserController.loginUser);
   app.post("/api/org/register", OrganizationController.registerOrganization);
   app.post("/api/org/login", OrganizationController.loginOrganization);
-
-  app.get("/api/crowdfunding/getAllPosts", CrowdfundingController.showAllPosts);
-  app
-    .route("/api/org/crowdfunding/:orgId")
-    .get(
-      auth.loginRequired,
-      CrowdfundingController.showParticularOrgnaisationPost
-    );
 
   app
     .route("/api/user/assistance")
@@ -35,4 +28,21 @@ module.exports = (app) => {
   app
     .route("/api/crowdfunding/create")
     .post(auth.loginRequired, CrowdfundingController.createCrowdfunding);
+
+  app.get("/api/crowdfunding/getAllPosts", CrowdfundingController.showAllPosts);
+  app
+    .route("/api/org/crowdfunding/:orgId")
+    .get(
+      auth.loginRequired,
+      CrowdfundingController.showParticularOrgnaisationPost
+    );
+  //add org in url
+  app
+    .route("/api/campaign/create")
+    .post(auth.loginRequired, CampaignController.createCampaign);
+
+  app.get("/api/campaign/getAllCampaigns", CampaignController.showAllCampaigns);
+  app
+    .route("/api/org/campaigns/:orgId")
+    .get(auth.loginRequired, CampaignController.showParticularCampaign);
 };
