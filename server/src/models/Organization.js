@@ -62,6 +62,7 @@ const OrganizationSchema = new Schema(
   },
   { timestamps: true }
 );
-
+OrganizationSchema.index({ location: "2dsphere" });
 const Organization = mongoose.model("organization", OrganizationSchema);
+
 module.exports = Organization;
