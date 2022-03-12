@@ -8,7 +8,7 @@ module.exports = (app) => {
   });
 
    app.post("/api/user/register", UserController.registerUser);
-  // app.post("/api/user/login", UserController.loginStudent);
+    app.post("/api/user/login", UserController.loginUser);
   // app.post("/api/org/register", UserController.registerStudent);
   // app.post("/api/org/login", UserController.loginStudent);
  

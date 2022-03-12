@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AUTH_SUCCESS, AUTH_ERROR } from "../reducers/types";
 
-const BASE_URL = process.env.REACT_APP_API_URL;
+const BASE_URL = "http://localhost:8000/api";
 
 export const login = async ({
   dispatch,
@@ -11,12 +11,13 @@ export const login = async ({
   userType
 }) => {
   try {
+    console.log(BASE_URL);
     const res = await axios.post(BASE_URL + `/${userType}/login`, {
       email,
       password
     });
-console.log(res);
-   
+
+   console.log(BASE_URL);
     dispatch({
       type: AUTH_SUCCESS,
       payload: { ...res.data, rememberme, userType }
@@ -36,10 +37,8 @@ console.log(res);
 
 export const register = async ({ dispatch, user, userType }) => {
   try {
-    console.log(user)
-    console.log("=======");
-    console.log(BASE_URL);
-    const res = await axios.post(`http://localhost:8000/api/user/register`, {
+   
+    const res =  await axios.post(BASE_URL + `/${userType}/register`, {
       ...user
     });
     dispatch({

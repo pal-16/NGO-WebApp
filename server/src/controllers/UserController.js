@@ -1,11 +1,11 @@
-const user = require("../models/User");
+const User = require("../models/User");
 const axios = require("axios");
 const auth = require("../utilities/auth");
 
 //Register user
 exports.registerUser = async (req, res) => {
   try {
-    const user = await user.findOne({
+    const user = await User.findOne({
       $or: [{ userID: req.body.userID }, { email: req.body.email }]
     });
 
@@ -36,8 +36,8 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    const user = await user.findOne({ email }).select("+password");
+    console.log(req.body);
+    const user = await User.findOne({ email }).select("+password");
 
     if (
       !user ||
@@ -52,7 +52,6 @@ exports.loginUser = async (req, res) => {
       token,
       data: {
         userID: user._id,
-        userCoins:user.coins
       }
     });
   } catch (e) {

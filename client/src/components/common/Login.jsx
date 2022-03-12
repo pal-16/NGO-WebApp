@@ -72,9 +72,7 @@ const Login = (props) => {
   });
 
   useEffect(() => {
-    if (isAuthenticated && userType === props.userType) {
-      history.push(`/${props.userType}/applications`);
-    }
+
   }, [history, isAuthenticated, userType, props.userType]);
 
   const isFormValid = () => {
