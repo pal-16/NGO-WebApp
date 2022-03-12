@@ -12,8 +12,6 @@ const globalErrorHandler = require("./controllers/errorController");
 
 const app = express();
 
-console.log(process.env.MONGO_URI_DEV);
-
 app.use(express.json());
 
 var corsOptions = {

@@ -1,11 +1,17 @@
 const Organization = require("../models/Organization");
 const auth = require("../utilities/auth");
+const GeocoderArcGIS = require("geocoder-arcgis");
+
+const geocoder = new GeocoderArcGIS();
 
 //Register Organization
 exports.registerOrganization = async (req, res) => {
   try {
     const Organization = await Organization.findOne({
-      $or: [{ OrganizationID: req.body.OrganizationID }, { email: req.body.email }]
+      $or: [
+        { OrganizationID: req.body.OrganizationID },
+        { email: req.body.email }
+      ]
     });
 
     if (Organization) {
@@ -14,7 +20,25 @@ exports.registerOrganization = async (req, res) => {
       });
     }
 
-    const newOrganization = await Organization.create(req.body);
+    const { name, email, address } = req.body;
+    let loc = [];
+
+    geocoder
+      .findAddressCandidates(address, {})
+      .then((result) => {
+        loc.push(result.candidates[0].location.x);
+        loc.push(result.candidates[0].location.y);
+        console.log(result.candidates[0]);
+      })
+      .catch(console.log);
+    let location = { type: "Point", coordinates: loc };
+    console.log(`locc====${location}`);
+    const newOrganization = await Organization.create({
+      name,
+      email,
+      address,
+      location
+    });
 
     const token = auth.signToken(newOrganization._id);
     res.status(201).json({
@@ -34,7 +58,9 @@ exports.loginOrganization = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const Organization = await Organization.findOne({ email }).select("+password");
+    const Organization = await Organization.findOne({ email }).select(
+      "+password"
+    );
 
     if (
       !Organization ||
@@ -56,12 +82,30 @@ exports.loginOrganization = async (req, res) => {
   }
 };
 
-
-
 exports.getOrganization = async (req, res) => {
   try {
     let Organization = await Organization.findById(req.params.OrganizationID);
-    if (!Organization) return res.status(404).json({ error: "Invalid Organization ID" });
+    if (!Organization)
+      return res.status(404).json({ error: "Invalid Organization ID" });
+
+    return res.status(200).json({
+      name: Organization.name,
+      OrganizationID: Organization.OrganizationID,
+      email: Organization.email,
+      department: Organization.department,
+      description: Organization.description,
+      position: Organization.position
+    });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+
+exports.chatbot = async (req, res) => {
+  try {
+    let Organization = await Organization.findById(req.params.OrganizationID);
+    if (!Organization)
+      return res.status(404).json({ error: "Invalid Organization ID" });
 
     return res.status(200).json({
       name: Organization.name,
