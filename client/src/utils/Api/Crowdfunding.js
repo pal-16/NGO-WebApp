@@ -2,7 +2,12 @@ import axios from "./axios.js";
 
 const CrowdfundingApi = {
 	create: ({ orgId, title, description, totalAmount }) => {
-		return axios.post(`/crowdfunding/create`, { orgId, title, description, totalAmount });
+		return axios.post(`/crowdfunding/create`, {
+			orgId,
+			title,
+			description,
+			totalAmount,
+		});
 	},
 	getAllPosts: () => {
 		return axios.get(`/crowdfunding/getAllPosts`);
@@ -11,8 +16,14 @@ const CrowdfundingApi = {
 		return axios.get(`/org/crowdfunding` + `${orgId}`);
 	},
 	makeTransaction: ({ amount, postId, orgId, userId, paymentId }) => {
-		return axios.post(`/user/donate/` + paymentId, { amount, postId, orgId, userId, paymentId })
-	}
+		return axios.post(`/user/donate/` + paymentId, {
+			amount,
+			postId,
+			orgId,
+			userId,
+			paymentId,
+		});
+	},
 };
 
 export default CrowdfundingApi;
