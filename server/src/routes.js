@@ -12,4 +12,5 @@ module.exports = (app) => {
   app.post("/api/user/login", UserController.loginUser);
   app.post("/api/org/register", OrganizationController.registerOrganization);
   app.post("/api/org/login", OrganizationController.loginOrganization);
+  app.post("/api/user/chatbot", UserController.chatbot);
 };
