@@ -7,57 +7,14 @@ import SC from "../utils/smartContractUtil.js";
 import { useNavigate } from "react-router-dom";
 import { CurrencyDollarIcon } from "@heroicons/react/outline";
 
-const Marketplace = () => {
+const Crowdfunding = () => {
   const [tokens, setTokens] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  window.ethereum.on("accountsChanged", () => {
-    window.location.reload();
-  });
 
-  useEffect(() => {
-    const init = async () => {
-      const toastElement = toast.loading("Fetching Tokens");
-      try {
-        const response = await Api.token.getTokens();
-        let { tokens, message } = response.data;
-        toast.update(toastElement, {
-          render: message,
-          type: "success",
-          isLoading: false,
-          autoClose: true,
-        });
-        tokens = tokens.filter((token) => token.tokenIndex !== undefined);
-        SC.init()
-          .then(async () => {
-            const balances = await SC.getUserBalances(tokens);
-            const adminBalances = await SC.getAdminBalances(tokens);
-            setTokens(
-              tokens.map((token, index) => {
-                return {
-                  ...token,
-                  balance: balances[index],
-                  raised: (token.amount - adminBalances[index]) * 100 / token.amount,
-                };
-              })
-            );
-            setIsLoading(false);
-          })
-          .catch((err) => {
-            setIsLoading(false);
-            console.log(err);
-            toast.error("Can't connect to MetaMask");
-          });
-      } catch (error) {
-        responseErrorHandler(error, toastElement);
-      }
-    };
-    return init();
-  }, []);
 
-  return isLoading ? (
-    <Loader />
-  ) : (
+ 
+  return (
     <section className="text-gray-600 body-font lg:mx-10 sm:mx-2">
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-wrap w-full mb-20">
@@ -79,7 +36,7 @@ const Marketplace = () => {
               <div
                 className="hover:animate-pulse xl:w-1/4 md:w-1/2 p-4"
                 key={token._id}
-                onClick={() => navigate(`/marketplace/${token._id}`)}
+                onClick={() => navigate(`/Crowdfunding/${token._id}`)}
               >
                 <div className="bg-gray-100 p-6 rounded-lg">
                   <img
@@ -124,4 +81,4 @@ const Marketplace = () => {
   );
 };
 
-export default Marketplace;
+export default Crowdfunding;
