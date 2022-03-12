@@ -22,7 +22,7 @@ const CampaignApi = {
 		});
 	},
 	getAllCampaigns: () => {
-		return axios.get(`/crowdfunding/getAllCampaigns`);
+		return axios.get(`/campaign/getAllCampaigns`);
 	},
 	getParticularOrganizationCampaigns: ({ orgId }) => {
 		return axios.get(`/org/campaign/${orgId}`);

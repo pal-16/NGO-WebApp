@@ -17,11 +17,13 @@ const Campaign = () => {
       const toastElement = toast.loading("Fetching All Campaigns");
       try {
         const response = await Api.campaign.getAllCampaigns();
-        let { message, campaigns } = response.data;
-        console.log(campaigns);
-        setCampaigns(campaigns);
+        console.log(response.data);
+        let { data } = response.data;
+        const { allCampaigns } = data;
+        console.log(allCampaigns);
+        setCampaigns(allCampaigns);
         toast.update(toastElement, {
-          render: message,
+          render: "All Campaigns Fetched",
           type: "success",
           isLoading: false,
           autoClose: true,
@@ -68,30 +70,36 @@ const Campaign = () => {
 
                     </h3>
                     <h2 className="text-lg text-gray-900 font-medium title-font m-auto">
-                      {campaign.title}
+                      {campaign.name}
                     </h2>
                     <div className="flex mb-1 w-50">
                       <span className="flex items-center">
-                        Percent Raised {campaign.totalAmount}%
-                        <div className="w-40 bg-gray-200 h-2 ml-2">
+                        Number Of Volunteer {campaign.noOfVolunteers}
+                        {/* <div className="w-40 bg-gray-200 h-2 ml-2">
                           <div
                             className="bg-indigo-600 h-2"
                             style={{ width: `${campaign.totalAmount}%` }}
                           ></div>
-                        </div>
+                        </div> */}
                       </span>
                     </div>
                     <br></br>
                     <div className="flex m-auto">
-                      <CurrencyDollarIcon className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-indigo-500 ml-4" />
                       <span className="title-font font-medium text-sm text-gray-900 m-auto">
-                        Balance {campaign.amountNeeded}
+                        Address {campaign.address}
+                      </span>
+                    </div>
+                    <div className="flex m-auto">
+                      <span className="title-font font-medium text-sm text-gray-900 m-auto">
+                        Date {campaign.date}
+                      </span>
+                      <span className="title-font font-medium text-sm text-gray-900 m-auto">
+                        Time {campaign.time}
                       </span>
                     </div>
                     <p className="mt-1 leading-relaxed text-base">
-
+                      {campaign.description}
                     </p>
-
                   </div>
                 </div>
               );
