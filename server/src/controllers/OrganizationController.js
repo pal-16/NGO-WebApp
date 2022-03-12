@@ -10,13 +10,6 @@ const geocoder = new GeocoderArcGIS();
 //Register Organization
 exports.registerOrganization = async (req, res) => {
   try {
-    const org = await Organization.findOne({ email }).select("+password");
-
-    if (!org || !(await org.correctPassword(password, org.password))) {
-      return res.status(401).json({ error: "Incorrect email or password" });
-    }
-
- 
     const { name, email, address, password } = req.body;
 
     let loc = [];
