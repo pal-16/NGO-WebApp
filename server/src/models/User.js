@@ -23,7 +23,7 @@ const user = new mongoose.Schema({
     type: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "crowfunding"
+        ref: "crowdfunding"
       }
     ],
     default: []

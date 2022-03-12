@@ -12,8 +12,7 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 	const [password, setPassword] = useState("");
 	const [address, setAddress] = useState("");
 	const [name, setName] = useState("");
-	const [status, setStatus] = useState("no-disablility");
-
+	const [role, setRole] = useState("student");
 	const submit = async () => {
 		if (!validator.isEmail(email)) {
 			return toast.error("Invalid Email Address");
@@ -31,26 +30,12 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 			signIn ? "Logging You In" : "Signing You Up"
 		);
 		try {
-			const response = signIn
-				? await Api.auth.signIn({ email, password, userType })
-				: userType == "org"
-					? await Api.auth.signUp({
-						email,
-						password,
-						name,
-						address,
-						userType,
-					})
-					: await Api.auth.signUp({
-						email,
-						password,
-						name,
-						userType,
-						status
+			const response =  await Api.crowdfunding.create({
+						title, description, totalAmount
 					});
 			toast.update(toastElement, {
 				render: signIn
-					? "Logd In Successfully"
+					? "Logged In Successfully"
 					: "Account Created Successfully",
 				type: "success",
 				isLoading: false,
@@ -77,25 +62,25 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 			{!signIn && <Input label="Full Name" name="name" setter={setName} />}
 			<Input label="Email" type="email" setter={setEmail} />
 			{!signIn && userType === "org" && <Input label="Address" name="address" setter={setAddress} />}
-			{!signIn && userType === "user" && (
+			{/* {!signIn && (
 				<Radio
-					label="Disability Status"
-					value={status}
-					setter={setStatus}
+					label="Role"
+					value={role}
+					setter={setRole}
 					options={[
 						{
-							label: "No Disability",
-							value: "no-disability",
-							name: "status",
+							label: "Team",
+							value: "team",
+							name: "role",
 						},
 						{
-							label: "Disability",
-							value: "disability",
-							name: "status",
+							label: "Athlete",
+							value: "athlete",
+							name: "role",
 						},
 					]}
 				/>
-			)}
+			)} */}
 			<Input label="Password" type="password" setter={setPassword} />
 			<button
 				onClick={submit}

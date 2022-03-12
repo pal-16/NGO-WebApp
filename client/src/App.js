@@ -10,7 +10,7 @@ import Header from "./components/Partials/Header";
 import Footer from "./components/Partials/Footer";
 import Loader from "./components/Loader/Loader";
 const Home = React.lazy(() => import("./pages/Home"));
-const Marketplace = React.lazy(() => import("./pages/Marketplace"));
+const Crowdfunding = React.lazy(() => import("./components/CreateCrowdfunding"));
 const Token = React.lazy(() => import("./pages/Token"));
 const Company = React.lazy(() => import("./pages/Company"));
 const Features = React.lazy(() => import("./pages/Features"));
@@ -54,8 +54,8 @@ const App = () => {
 						/>
 						<Route path="/company" exact element={<Company />} />
 						<Route path="/features" exact element={<Features />} />
-						<Route path="/marketplace" exact element={<Marketplace />} />
-						<Route path="/marketplace/:tokenID" element={<Token />} />
+						<Route path="/Crowdfunding" exact element={<Crowdfunding />} />
+						<Route path="/Crowdfunding/:tokenID" element={<Token />} />
 						<Route
 							path="/assistance"
 							element={isAuthenticated ? <Assistance /> : <Navigate to="/" />}

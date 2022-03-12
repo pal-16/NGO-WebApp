@@ -1,15 +1,18 @@
 const Organization = require("../models/Organization");
+const Crowdfunding = require("../models/Crowdfunding");
+
 const auth = require("../utilities/auth");
 const GeocoderArcGIS = require("geocoder-arcgis");
 
 const geocoder = new GeocoderArcGIS();
+
 
 //Register Organization
 exports.registerOrganization = async (req, res) => {
   try {
     const organization = await Organization.findOne({
       $or: [
-        { OrganizationID: req.body.OrganizationID },
+
         { email: req.body.email }
       ]
     });
@@ -96,3 +99,5 @@ exports.getOrganization = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+
+

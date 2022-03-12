@@ -1,12 +1,16 @@
 import TokenApi from "./TokenApi.js";
 import AuthApi from "./Auth.js";
 import AssistanceApi from "./Assistance.js";
+import CrowdfundingApi from "./Crowdfunding.js";
+import CampaignApi from "./Campaign.js";
 import { toast } from "react-toastify";
 
 const Api = {
   auth: AuthApi,
   token: TokenApi,
-  assistance: AssistanceApi
+  assistance: AssistanceApi,
+  crowdfunding: CrowdfundingApi,
+  campaign: CampaignApi
 };
 
 export const responseErrorHandler = (error, toastElement) => {
