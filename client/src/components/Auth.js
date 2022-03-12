@@ -62,6 +62,7 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 			localStorage.setItem("token", token);
 			localStorage.setItem("user", JSON.stringify(user));
 			setIsAuthenticated(true);
+			localStorage.setItem("userType", userType);
 			return close();
 		} catch (error) {
 			responseErrorHandler(error, toastElement);

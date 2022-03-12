@@ -56,9 +56,9 @@ const App = () => {
 						/>
 						<Route path="/company" exact element={<Company />} />
 						<Route path="/features" exact element={<Features />} />
-						<Route path="/Crowdfunding" exact element={<Crowdfunding />} />
-						<Route path="/UserCrowdfunding" exact element={<UserCrowdfunding />} />
-						<Route path="/Crowdfunding/:tokenID" element={<Token />} />
+						<Route path="/Crowdfunding" exact element={isAuthenticated ? <Crowdfunding /> : <Navigate to="/" />} />
+						<Route path="/UserCrowdfunding" exact element={isAuthenticated ? <UserCrowdfunding /> : <Navigate to="/" />} />
+						<Route path="/Crowdfunding/:tokenID" element={isAuthenticated ? <Token /> : <Navigate to="/" />} />
 						<Route
 							path="/assistance"
 							element={isAuthenticated ? <Assistance /> : <Navigate to="/" />}

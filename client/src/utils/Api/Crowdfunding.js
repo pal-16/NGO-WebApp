@@ -13,13 +13,13 @@ const CrowdfundingApi = {
 		return axios.get(`/crowdfunding/getAllPosts`);
 	},
 	getParticular: ({ orgId }) => {
-		return axios.get(`/org/crowdfunding/${orgId}`);
+		return axios.get(`/org/crowdfunding` + `${orgId}`);
 	},
-	makeTransaction: ({ amount, postId, currOrgId, userId, paymentId }) => {
+	makeTransaction: ({ amount, postId, orgId, userId, paymentId }) => {
 		return axios.post(`/user/donate/` + paymentId, {
 			amount,
 			postId,
-			currOrgId,
+			orgId,
 			userId,
 			paymentId,
 		});
