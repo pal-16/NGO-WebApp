@@ -90,6 +90,7 @@ exports.createCampaign = async (req, res) => {
 exports.showAllCampaigns = async (req, res) => {
   try {
     const allCampaigns = await Campaign.find({});
+    console.log(allCampaigns, "allCampaigns");
     res.status(201).json({
       status: "success",
       data: {
