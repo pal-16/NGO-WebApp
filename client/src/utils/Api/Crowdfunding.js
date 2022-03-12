@@ -10,8 +10,6 @@ const CrowdfundingApi = {
 	getParticular:({orgId})=>{
 		return axios.get(`/org/crowdfunding`+`${orgId}`);
 	},
-
-
 };
 
 export default CrowdfundingApi;

@@ -18,3 +18,31 @@ exports.createCrowdfunding = async (req, res) => {
       return res.status(500).json({ error: e.message });
     }
   };
+
+  exports.showAllPosts = async (req, res) => {
+    try {
+      const allPosts = await Crowdfunding.find({});
+      res.status(201).json({
+        status: "success",
+        data: {
+          allPosts
+        }
+      });
+    } catch (e) {
+      return res.status(500).json({ error: e.message });
+    }
+  };
+  
+  exports.showParticularOrgnaisationPost = async (req, res) => {
+    try {
+      const posts = await Crowdfunding.findById(req.params.orgId);
+      res.status(201).json({
+        status: "success",
+        data: {
+          posts
+        }
+      });
+    } catch (e) {
+      return res.status(500).json({ error: e.message });
+    }
+  };
