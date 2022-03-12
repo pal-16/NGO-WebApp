@@ -10,16 +10,17 @@ import Header from "./components/Partials/Header";
 import Footer from "./components/Partials/Footer";
 import Loader from "./components/Loader/Loader";
 const Home = React.lazy(() => import("./pages/Home"));
-const CreateCrowdfunding = React.lazy(() => import("./components/CreateCrowdfunding"));
+const CreateCrowdfunding = React.lazy(() =>
+	import("./pages/CreateCrowdfunding")
+);
 const UserCrowdfunding = React.lazy(() => import("./pages/UserCrowdfunding"));
+const Campaign = React.lazy(() => import("./pages/Campaign"));
+const CreateCampaign = React.lazy(() => import("./pages/CreateCampaign"));
 
 const Token = React.lazy(() => import("./pages/Token"));
 const Company = React.lazy(() => import("./pages/Company"));
 const Features = React.lazy(() => import("./pages/Features"));
-const MyToken = React.lazy(() => import("./pages/MyToken"));
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
-const Polls = React.lazy(() => import("./pages/Polls"));
-const Stat = React.lazy(() => import("./pages/Stat"));
 const Assistance = React.lazy(() => import("./pages/Assistance"));
 
 const App = () => {
@@ -56,28 +57,42 @@ const App = () => {
 						/>
 						<Route path="/company" exact element={<Company />} />
 						<Route path="/features" exact element={<Features />} />
-						<Route path="/Crowdfunding" exact element={isAuthenticated ? <CreateCrowdfunding /> : <Navigate to="/" />} />
-						<Route path="/UserCrowdfunding" exact element={isAuthenticated ? <UserCrowdfunding /> : <Navigate to="/" />} />
-						<Route path="/Crowdfunding/:tokenID" element={isAuthenticated ? <Token /> : <Navigate to="/" />} />
+						<Route
+							path="/Campaign"
+							exact
+							element={isAuthenticated ? <Campaign /> : <Navigate to="/" />}
+						/>
+						<Route
+							path="/createCampaign"
+							exact
+							element={
+								isAuthenticated ? <CreateCampaign /> : <Navigate to="/" />
+							}
+						/>
+						<Route
+							path="/Crowdfunding"
+							exact
+							element={isAuthenticated ? <CreateCrowdfunding /> : <Navigate to="/" />}
+						/>
+						<Route
+							path="/UserCrowdfunding"
+							exact
+							element={
+								isAuthenticated ? <UserCrowdfunding /> : <Navigate to="/" />
+							}
+						/>
+						<Route
+							path="/Crowdfunding/:tokenID"
+							element={isAuthenticated ? <Token /> : <Navigate to="/" />}
+						/>
 						<Route
 							path="/assistance"
 							element={isAuthenticated ? <Assistance /> : <Navigate to="/" />}
 						/>
 						<Route
-							path="/myToken"
-							element={isAuthenticated ? <MyToken /> : <Navigate to="/" />}
-						/>
-						<Route
 							path="/dashboard"
 							element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />}
 						>
-							<Route path="/dashboard/stat" exact element={<Stat />} />
-							<Route
-								path="/dashboard/polls/:tokenID"
-								exact
-								element={<Polls />}
-							/>
-							<Route path="/dashboard/MyToken" exact element={<MyToken />} />
 						</Route>
 					</Routes>
 				</Suspense>

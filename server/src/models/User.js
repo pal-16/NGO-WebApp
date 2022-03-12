@@ -28,6 +28,21 @@ const user = new mongoose.Schema({
     ],
     default: []
   },
+  address: {
+    type: String,
+    required: true
+  },
+  location: {
+    type: {
+      type: String, // Don't do `{ location: { type: String } }`
+      default: "Point",
+      required: false
+    },
+    coordinates: {
+      type: [Number],
+      required: true
+    }
+  },
   campaign: {
     type: [
       {
@@ -54,7 +69,7 @@ const user = new mongoose.Schema({
   ],
   status: {
     type: String,
-    default: "no-disability",
+    default: "no-disability"
   }
 });
 
@@ -70,7 +85,7 @@ user.methods.correctPassword = async function (
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
-
+user.index({ location: "2dsphere" });
 const User = mongoose.model("user", user);
 
 module.exports = User;
