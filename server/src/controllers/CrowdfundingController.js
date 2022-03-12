@@ -46,3 +46,29 @@ exports.createCrowdfunding = async (req, res) => {
       return res.status(500).json({ error: e.message });
     }
   };
+
+  exports.makeTransaction = async (req, res) => {
+    try {
+
+      const {amount,postId,orgId,userId,paymentId } = req.body;
+      const transaction=await Transaction.create({amount,postId,orgId,userId,paymentId}); 
+   
+      await Organization.findByIdAndUpdate(orgId, {
+        $push: { transaction:transaction }
+    });
+      await User.findByIdAndUpdate(userId, {
+        $push: { transaction:transaction  }
+    }); 
+      await Crowdfunding.findByIdAndUpdate(postId, {
+      $push: { transaction:transaction   }
+  });
+      res.status(201).json({
+        status: "success",
+        data: {
+        }
+      });
+    } catch (e) {
+      return res.status(500).json({ error: e.message });
+    }
+  };
+

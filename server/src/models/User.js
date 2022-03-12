@@ -37,6 +37,15 @@ const user = new mongoose.Schema({
     ],
     default: []
   },
+  transaction: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "transaction"
+      }
+    ],
+    default: []
+  },
   assistanceRequests: [
     {
       type: mongoose.Schema.Types.ObjectId,

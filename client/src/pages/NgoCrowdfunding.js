@@ -2,69 +2,15 @@ import Api from "../utils/Api/Api.js";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { responseErrorHandler } from "../utils/Api/Api.js";
+import Loader from "../components/Loader/Loader";
 import { useNavigate } from "react-router-dom";
 import { CurrencyDollarIcon } from "@heroicons/react/outline";
-import Popup from "../components/Popup/Popup";
-import Input from "../components/Input";
-import { getUserId } from "../utils/jwtUtil";
 
-const TransactionModal = ({postId,orgId}) => {
- 
-  const [money, setMoney] = useState(0);
-	const userId=getUserId();
-  const paymentHandler = async (e) => {
-    e.preventDefault();
-    let amount=money*100;
-    const options = {
-      key: "rzp_test_OD9eywpWYm0Jh3",
-      name: "Lend A Hand",
-      description: "Your Payment Details",
-      amount: amount,
-      handler: async (response) => {
-    
-        try {
-        const paymentId = response.razorpay_payment_id;
-         const res = await Api.crowdfunding.makeTransaction({amount,postId,orgId,userId,paymentId});
-         return close();
-        } catch (err) {
-         console.log(err);
-        }
-      },
-      theme: {
-        color: "#686CFD"
-      }
-    };
-    const rzp1 = new window.Razorpay(options);
-    rzp1.open();
-  };
-	return (
-  
-		<div className="bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 modal">
-			<h2 className="text-gray-900 text-lg font-medium title-font mb-5">
-    
-			</h2>
-      <Input label="Money" type="money" setter={setMoney}/>
-      <button onClick={paymentHandler}>Submit</button>
-		</div>
-	);
-};
-
-const Crowdfunding = () => {
-  const [posts, setPosts] = useState([]);
+const NgoCrowdfunding = () => {
+  const [tokens, setTokens] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  
-  useEffect(() => { 
-    Api.crowdfunding.getAllPosts().then((res) => {
-  
-      console.log(res)
-   
-      console.log(res.data.data.allPosts)
-      setPosts(res.data.data.allPosts);
-    });
-	  setIsLoading(false);
-	},[]);
-
+ 
   return (
     <section className="text-gray-600 body-font lg:mx-10 sm:mx-2">
       <div className="container px-5 py-24 mx-auto">
@@ -82,7 +28,7 @@ const Crowdfunding = () => {
           </p>
         </div>
         <div className="flex flex-wrap -m-4">
-          {posts.map((token) => {
+          {tokens.map((token) => {
             return (
               <div
                 className="hover:animate-pulse xl:w-1/4 md:w-1/2 p-4"
@@ -92,47 +38,36 @@ const Crowdfunding = () => {
                 <div className="bg-gray-100 p-6 rounded-lg">
                   <img
                     className="h-40 rounded w-full object-contain object-center mb-6"
-                    src={""}
+                    src={token.image}
                     alt="content"
                   />
                   <h3 className="tracking-widest text-indigo-500 text-xs font-medium title-font">
-
+                    Token Name
                   </h3>
                   <h2 className="text-lg text-gray-900 font-medium title-font m-auto">
-                    {token.title} 
+                    {token.name?.toUpperCase()} TOKEN
                   </h2>
                   <div className="flex mb-1 w-50">
                     <span className="flex items-center">
-                      Percent Raised {token.totalAmount}%
+                      Percent Raised {token.raised}%
                       <div className="w-40 bg-gray-200 h-2 ml-2">
                         <div
                           className="bg-indigo-600 h-2"
-                          style={{ width: `${token.totalAmount}%` }}
+                          style={{ width: `${token.raised}%` }}
                         ></div>
                       </div>
                     </span>
                   </div>
-                  <br></br>
                   <div className="flex m-auto">
                     <CurrencyDollarIcon className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-indigo-500 ml-4" />
                     <span className="title-font font-medium text-sm text-gray-900 m-auto">
-                      Balance {token.amountNeeded} 
-                     </span>
+                      Balance {token.balance} {token.name?.toUpperCase()} TOKEN
+                    </span>
                   </div>
                   <p className="mt-1 leading-relaxed text-base">
-                 
+                    Fingerstache flexitarian street art 8-bit waistcoat.
+                  
                   </p>
-                  <Popup
-                  Button={
-                    <button className={"w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"}>
-                    Donate Money
-                    </button>
-                  }
-                  Modal={TransactionModal}
-                  orgId={token.orgId}
-                  postId={token._id}
-                />
-             
                 </div>
               </div>
             );
@@ -141,7 +76,6 @@ const Crowdfunding = () => {
       </div>
     </section>
   );
-        
 };
 
-export default Crowdfunding;
+export default NgoCrowdfunding;

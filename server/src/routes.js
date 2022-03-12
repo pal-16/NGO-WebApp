@@ -35,4 +35,6 @@ module.exports = (app) => {
   app
     .route("/api/crowdfunding/create")
     .post(auth.loginRequired, CrowdfundingController.createCrowdfunding);
+
+  app.route("api/user/donate/:paymentId").post(auth.loginRequired, CrowdfundingController.makeTransaction);
 };
