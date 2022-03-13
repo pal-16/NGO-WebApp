@@ -71,14 +71,11 @@ const UserCrowdfunding = () => {
   }, []);
 
   return (
-    <section className="text-gray-600 body-font lg:mx-10 sm:mx-2">
-      <div className="container px-5 py-24 mx-auto">
-        <div className="flex flex-wrap w-full mb-20">
-          <div className="lg:w-1/2 w-full mb-6 lg:mb-0">
-            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
-            Crowdfunding Requests
-            </h1>
-            <div className="h-1 w-20 bg-indigo-500 rounded"></div>
+    <section className="text-gray-600 body-font lg:mx-2 sm:mx-2">
+    <div className="flex flex-wrap w-full mb-20">
+          <div className="lg:w-1/2 w-full mb-4 lg:mb-0">
+           
+
           </div>
           <p className="lg:w-1/2 w-full leading-relaxed text-gray-500">
          
@@ -88,7 +85,7 @@ const UserCrowdfunding = () => {
           {posts.map((token) => {
             return (
               <div
-                className="hover:animate-pulse xl:w-1/4 md:w-1/2 p-4"
+                className="hover:animate-pulse xl:w-1/3 md:w-1/3 p-4"
                 key={token._id}
                 onClick={() => navigate(`/Crowdfunding/${token._id}`)}
               >
@@ -116,14 +113,14 @@ const UserCrowdfunding = () => {
                     </span>
                   </div>
                   <br></br>
-                  <div className="flex m-auto">
+                  {/* <div className="flex m-auto">
                     <CurrencyDollarIcon className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-indigo-500 ml-4" />
                     <span className="title-font font-medium text-sm text-gray-900 m-auto">
                       Balance {token.amountNeeded}
                     </span>
-                  </div>
+                  </div> */}
                   <p className="mt-1 leading-relaxed text-base">
-                  Posted by NGO name
+                  Posted by Udaan Foundation
                   </p>
                   <Popup
                     Button={
@@ -141,7 +138,7 @@ const UserCrowdfunding = () => {
             );
           })}
         </div>
-      </div>
+    
     </section>
   );
 
