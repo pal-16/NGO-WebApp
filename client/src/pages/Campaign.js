@@ -53,8 +53,7 @@ const Campaign = () => {
 						<div className="h-1 w-20 bg-indigo-500 rounded"></div>
 					</div>
 					<p className="lg:w-1/2 w-full leading-relaxed text-gray-500">
-						Here you can view all the campaigns created on KheloFi by diffetent
-						athletes and clubs. Click on a campaigns to see the details, buy
+						Here you can view all the campaigns created. Click on a campaigns to see the details, buy
 						campaigns and transfer campaigns
 					</p>
 				</div>
@@ -77,7 +76,7 @@ const Campaign = () => {
 									</h2>
 									<div className="flex mb-1 w-50">
 										<span className="flex items-center">
-											Number Of Volunteer {campaign.noOfVolunteers}
+											Volunteer Required: {campaign.noOfVolunteers}
 											{/* <div className="w-40 bg-gray-200 h-2 ml-2">
                           <div
                             className="bg-indigo-600 h-2"
@@ -87,9 +86,9 @@ const Campaign = () => {
 										</span>
 									</div>
 									<br></br>
-									<div className="flex m-auto">
+									{/* <div className="flex m-auto">
 										<span className="title-font font-medium text-sm text-gray-900 m-auto">
-											Address {campaign.address}
+											Address: {campaign.address}
 										</span>
 									</div>
 									<div className="flex m-auto">
@@ -99,10 +98,8 @@ const Campaign = () => {
 										<span className="title-font font-medium text-sm text-gray-900 m-auto">
 											Time {campaign.time}
 										</span>
-									</div>
-									<p className="mt-1 leading-relaxed text-base">
-										{campaign.description}
-									</p>
+									</div> */}
+								
 								</div>
 								<button
 									onClick={enrol}
