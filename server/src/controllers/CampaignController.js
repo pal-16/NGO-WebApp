@@ -72,10 +72,10 @@ exports.createCampaign = async (req, res) => {
 
     await emails.map((email) => {
       var mailOptions = {
-        from: "pblvjti@gmail.com",
+        from: "spreadasmile@gmail.com",
         to: email,
         subject: "Invitation to join the campaign",
-        text: "That was easy!"
+        text: "Hello, Hope you are having a great day. We at SpreadASmile Organization request you to spare few minutes in knowing about the campaign that we are conducting and if you would be interested to volunteer via your skills. Your few hours can donate huge amount of smile and confidence to the community"
       };
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {

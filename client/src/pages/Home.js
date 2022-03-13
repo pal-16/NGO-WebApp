@@ -1,4 +1,4 @@
-import Logo from "../assets/homeLogo.svg";
+import Logo from "../assets/homepage.svg";
 import PlayerLogo from "../assets/playerLogo.svg";
 import { Link } from "react-router-dom";
 import Auth from "../components/Auth";
@@ -83,8 +83,8 @@ const Home = ({ isAuthenticated, setIsAuthenticated }) => {
                 <span className="block text-indigo-600 xl:inline">management and growth of NGO's</span>
               </h1>
               <p className="mt-3 text-xs text-gray-500 sm:mt-5 sm:text-sm sm:max-w-xl sm:mx-auto md:mt-5 md:text-base lg:mx-0">
-                Over the years, only sport club owners and managers could make profit from their investments and now KheloFi platform builds an ecosystem for the sports and crypto world, offering sports fans innovative ways to invest in the sports market with blockchain technology.
-              </p>
+               From raising funds to looking for volunteer, we have covered you all. We aim to encompass smooth functioning of Non Profitable Organization, support them as well as bridge the gap between them and the donors for their campaigns, seminars and workshops. 
+                 </p>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                 {
                   !isAuthenticated &&
@@ -108,25 +108,7 @@ const Home = ({ isAuthenticated, setIsAuthenticated }) => {
                     />
                   </div>
                 }
-                {/* {
-                  isAuthenticated &&
-                  <div className="mt-3 sm:mt-0 sm:ml-3">
-                    <Link
-                      to="/myToken"
-                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-                    >
-                      My Token
-                    </Link>
-                  </div>
-                }
-                <div className="mt-3 sm:mt-0 sm:ml-3">
-                  <Link
-                    to="/Crowdfunding"
-                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10"
-                  >
-                    Get Started As Investor
-                  </Link>
-                </div> */}
+    
               </div>
             </div>
           </div>
