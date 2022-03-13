@@ -61,9 +61,11 @@ const UserCrowdfunding = () => {
     Api.crowdfunding.getAllPosts().then((res) => {
 
       console.log(res)
-
-      console.log(res.data.data.allPosts)
-      setPosts(res.data.data.allPosts);
+      let temp = res.data.data.allPosts.filter((a) => {
+        return a.status === "incomplete";
+    });
+      console.log(temp)
+      setPosts(temp);
     });
     setIsLoading(false);
   }, []);
@@ -74,14 +76,12 @@ const UserCrowdfunding = () => {
         <div className="flex flex-wrap w-full mb-20">
           <div className="lg:w-1/2 w-full mb-6 lg:mb-0">
             <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
-              Created Tokens
+            Crowdfunding Requests
             </h1>
             <div className="h-1 w-20 bg-indigo-500 rounded"></div>
           </div>
           <p className="lg:w-1/2 w-full leading-relaxed text-gray-500">
-            Here you can view all the tokens created on KheloFi by diffetent
-            athletes and clubs. Click on a tokens to see the details, buy tokens
-            and transfer tokens
+         
           </p>
         </div>
         <div className="flex flex-wrap -m-4">
@@ -95,7 +95,7 @@ const UserCrowdfunding = () => {
                 <div className="bg-gray-100 p-6 rounded-lg">
                   <img
                     className="h-40 rounded w-full object-contain object-center mb-6"
-                    src={""}
+                    src={token.imageUrl}
                     alt="content"
                   />
                   <h3 className="tracking-widest text-indigo-500 text-xs font-medium title-font">
@@ -106,7 +106,7 @@ const UserCrowdfunding = () => {
                   </h2>
                   <div className="flex mb-1 w-50">
                     <span className="flex items-center">
-                      Percent Raised {token.totalAmount}%
+                      Percent Raised {(token.totalAmount)}%
                       <div className="w-40 bg-gray-200 h-2 ml-2">
                         <div
                           className="bg-indigo-600 h-2"
@@ -123,7 +123,7 @@ const UserCrowdfunding = () => {
                     </span>
                   </div>
                   <p className="mt-1 leading-relaxed text-base">
-
+                  Posted by NGO name
                   </p>
                   <Popup
                     Button={

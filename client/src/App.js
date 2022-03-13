@@ -18,8 +18,6 @@ const Campaign = React.lazy(() => import("./pages/Campaign"));
 const CreateCampaign = React.lazy(() => import("./pages/CreateCampaign"));
 
 const Token = React.lazy(() => import("./pages/Token"));
-const Company = React.lazy(() => import("./pages/Company"));
-const Features = React.lazy(() => import("./pages/Features"));
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Assistance = React.lazy(() => import("./pages/Assistance"));
 

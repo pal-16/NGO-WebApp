@@ -9,9 +9,8 @@ import { Popover, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 
 const navigation = [
-  { name: 'Product', href: '/' },
-  { name: 'Features', href: '/features' },
-  { name: 'Company', href: '/company' },
+  { name: 'Home', href: '/' },
+ 
 ]
 
 const Header = ({ isAuthenticated, setIsAuthenticated }) => {
@@ -60,7 +59,7 @@ const Header = ({ isAuthenticated, setIsAuthenticated }) => {
                   isAuthenticated &&
                   <>
                     <Link to="/UserCrowdFunding" className="font-medium text-indigo-600 hover:text-indigo-500">
-                      Crowd Funds
+                      CrowdFunds
                     </Link>
                   </>
                 }
@@ -68,7 +67,7 @@ const Header = ({ isAuthenticated, setIsAuthenticated }) => {
                   isAuthenticated && userType === 'org' &&
                   <>
                     <Link to="/CrowdFunding" className="font-medium text-indigo-600 hover:text-indigo-500">
-                      Create Crowd Fund
+                      Create CrowdFund
                     </Link>
                   </>
                 }
@@ -85,6 +84,14 @@ const Header = ({ isAuthenticated, setIsAuthenticated }) => {
                   <>
                     <Link to="/campaign" className="font-medium text-indigo-600 hover:text-indigo-500">
                       Campaign
+                    </Link>
+                  </>
+                }
+                   {
+                  isAuthenticated && userType === 'org' &&
+                  <>
+                    <Link to="/analytics" className="font-medium text-indigo-600 hover:text-indigo-500">
+                      Analytics
                     </Link>
                   </>
                 }
