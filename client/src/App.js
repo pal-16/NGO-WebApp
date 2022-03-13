@@ -22,6 +22,7 @@ const Company = React.lazy(() => import("./pages/Company"));
 const Features = React.lazy(() => import("./pages/Features"));
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Assistance = React.lazy(() => import("./pages/Assistance"));
+const NFT = React.lazy(() => import("./pages/NFT"));
 
 const App = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(isLoggedIn());
@@ -84,6 +85,10 @@ const App = () => {
 						<Route
 							path="/Crowdfunding/:tokenID"
 							element={isAuthenticated ? <Token /> : <Navigate to="/" />}
+						/>
+						<Route
+							path="/nft/:nftId"
+							element={isAuthenticated ? <NFT /> : <Navigate to="/" />}
 						/>
 						<Route
 							path="/assistance"

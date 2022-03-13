@@ -44,6 +44,8 @@ module.exports = (app) => {
       auth.loginRequired,
       CrowdfundingController.showParticularOrgnaisationPost
     );
+
+  app.get("/api/nft/:id", CrowdfundingController.getNFT);
   //add org in url
   app
     .route("/api/campaign/create")
