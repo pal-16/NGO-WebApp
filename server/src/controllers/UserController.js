@@ -132,9 +132,13 @@ exports.acceptAssistanceRequest = async (req, res) => {
     const { latitude, longitude } = req.body;
     console.log({ latitude, longitude });
     const assistanceRequest = await AssistanceRequest.findOne({
-      userlocation: {
-        $near: {
-          $geometry: {
+      currentStatus: "Pending",
+      userlocation:
+      {
+        $near:
+        {
+          $geometry:
+          {
             type: "Point",
             coordinates: [latitude, longitude]
           },
@@ -163,6 +167,26 @@ exports.acceptAssistanceRequest = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+
+exports.updateLocation = async (req, res) => {
+  try {
+    const assistanceRequest = await AssistanceRequest.findOne({
+      assignedUser: req.userId,
+      currentStatus: "Assigned"
+    });
+    assistanceRequest.assignedUserlocation = {
+      type: "Point",
+      coordinates: [req.body.latitude, req.body.longitude]
+    }
+    await assistanceRequest.save();
+    res.status(200).json({
+      status: "success",
+      assistanceRequest
+    });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+}
 
 exports.completeAssistanceRequest = async (req, res) => {
   try {
@@ -211,31 +235,31 @@ exports.chatbot = async (req, res) => {
         });
         orgs.length == 0
           ? (payloadData = {
-              richContent: [
-                [
-                  {
-                    type: "info",
-                    title: `No NGO's found within ${range}kms`
-                  }
-                ]
+            richContent: [
+              [
+                {
+                  type: "info",
+                  title: `No NGO's found within ${range}kms`
+                }
               ]
-            })
+            ]
+          })
           : (payloadData = {
-              richContent: [
-                orgs.map((organization) => {
-                  return {
-                    type: "list",
-                    title: organization.name,
-                    subtitle: organization.email,
-                    event: {
-                      name: "",
-                      languageCode: "",
-                      parameters: {}
-                    }
-                  };
-                })
-              ]
-            });
+            richContent: [
+              orgs.map((organization) => {
+                return {
+                  type: "list",
+                  title: organization.name,
+                  subtitle: organization.email,
+                  event: {
+                    name: "",
+                    languageCode: "",
+                    parameters: {}
+                  }
+                };
+              })
+            ]
+          });
         console.log(orgs);
       } catch (err) {
         console.log(err);
