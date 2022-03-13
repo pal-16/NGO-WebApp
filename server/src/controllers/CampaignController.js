@@ -9,7 +9,7 @@ const geocoder = new GeocoderArcGIS();
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "adityapatkar22@gmail.com",
+    user: "pblvjti@gmail.com",
     pass: process.env.GMAIL_PASS
   }
 });
@@ -50,7 +50,7 @@ exports.createCampaign = async (req, res) => {
     await Organization.findByIdAndUpdate(orgId, {
       $push: { campaign: campaign }
     });
-    const filteredUsers = await Organization.find({
+    const filteredUsers = await User.find({
       location: {
         $near: {
           $geometry: {
@@ -64,7 +64,7 @@ exports.createCampaign = async (req, res) => {
         }
       }
     });
-
+    console.log(filteredUsers);
     const emails = await filteredUsers.map((user) => {
       return user.email;
     });
@@ -72,7 +72,7 @@ exports.createCampaign = async (req, res) => {
 
     await emails.map((email) => {
       var mailOptions = {
-        from: "adityapatkar22@gmail.com",
+        from: "pblvjti@gmail.com",
         to: email,
         subject: "Invitation to join the campaign",
         text: "That was easy!"

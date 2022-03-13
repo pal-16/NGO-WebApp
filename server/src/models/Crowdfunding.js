@@ -5,8 +5,7 @@ const CrowdfundingSchema = new Schema(
   {
     orgId: {
       type: Schema.Types.ObjectId,
-      ref: "organization",
-      required: true
+      ref: "organization"
     },
     title: {
       type: String,
@@ -21,30 +20,21 @@ const CrowdfundingSchema = new Schema(
       required: false
     },
     currentAmount: {
-        type: Number,
-        required: false
+      type: Number,
+      required: false
     },
     volunteers: {
-        type: [
-          {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "user"
-          }
-        ],
-        default: []
-    },
-    organization: {
-        type: [
-          {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "organization"
-          }
-        ],
-        default: []
-      }
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "user"
+        }
+      ],
+      default: []
+    }
   },
   { timestamps: true }
 );
 
-const Crowdfunding= mongoose.model("crowdfunding", CrowdfundingSchema);
+const Crowdfunding = mongoose.model("crowdfunding", CrowdfundingSchema);
 module.exports = Crowdfunding;

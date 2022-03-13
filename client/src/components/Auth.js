@@ -34,20 +34,21 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 			const response = signIn
 				? await Api.auth.signIn({ email, password, userType })
 				: userType == "org"
-					? await Api.auth.signUp({
+				? await Api.auth.signUp({
 						email,
 						password,
 						name,
 						address,
 						userType,
-					})
-					: await Api.auth.signUp({
+				  })
+				: await Api.auth.signUp({
 						email,
 						password,
 						name,
 						userType,
-						status
-					});
+						address,
+						status,
+				  });
 			toast.update(toastElement, {
 				render: signIn
 					? "Logd In Successfully"
@@ -77,7 +78,7 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 			</h2>
 			{!signIn && <Input label="Full Name" name="name" setter={setName} />}
 			<Input label="Email" type="email" setter={setEmail} />
-			{!signIn && userType === "org" && <Input label="Address" name="address" setter={setAddress} />}
+			{!signIn && <Input label="Address" name="address" setter={setAddress} />}
 			{!signIn && userType === "user" && (
 				<Radio
 					label="Disability Status"

@@ -20,8 +20,22 @@ exports.registerUser = async (req, res) => {
         error: "user with this ID or email already exists"
       });
     }
+    const { name, email, address, password, status } = req.body;
+
+    let loc = [];
+
+    const result = await geocoder.findAddressCandidates(address, {});
+    loc.push(result.candidates[0].location.x);
+    loc.push(result.candidates[0].location.y);
+    let location = { type: "Point", coordinates: loc };
+
     const newuser = await User.create({
-      ...req.body
+      name,
+      email,
+      address,
+      password,
+      status,
+      location
     });
     const token = auth.signToken(newuser._id);
 
@@ -118,12 +132,9 @@ exports.acceptAssistanceRequest = async (req, res) => {
     const { latitude, longitude } = req.body;
     console.log({ latitude, longitude });
     const assistanceRequest = await AssistanceRequest.findOne({
-      userlocation:
-      {
-        $near:
-        {
-          $geometry:
-          {
+      userlocation: {
+        $near: {
+          $geometry: {
             type: "Point",
             coordinates: [latitude, longitude]
           },
@@ -200,31 +211,31 @@ exports.chatbot = async (req, res) => {
         });
         orgs.length == 0
           ? (payloadData = {
-            richContent: [
-              [
-                {
-                  type: "info",
-                  title: `No NGO's found within ${range}kms`
-                }
-              ]
-            ]
-          })
-          : (payloadData = {
-            richContent: [
-              orgs.map((organization) => {
-                return {
-                  type: "list",
-                  title: organization.name,
-                  subtitle: organization.email,
-                  event: {
-                    name: "",
-                    languageCode: "",
-                    parameters: {}
+              richContent: [
+                [
+                  {
+                    type: "info",
+                    title: `No NGO's found within ${range}kms`
                   }
-                };
-              })
-            ]
-          });
+                ]
+              ]
+            })
+          : (payloadData = {
+              richContent: [
+                orgs.map((organization) => {
+                  return {
+                    type: "list",
+                    title: organization.name,
+                    subtitle: organization.email,
+                    event: {
+                      name: "",
+                      languageCode: "",
+                      parameters: {}
+                    }
+                  };
+                })
+              ]
+            });
         console.log(orgs);
       } catch (err) {
         console.log(err);

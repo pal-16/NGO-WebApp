@@ -68,7 +68,7 @@ const Campaign = () => {
 								<div className="bg-gray-100 p-6 rounded-lg">
 									<img
 										className="h-40 rounded w-full object-contain object-center mb-6"
-										src={""}
+										src={campaign.imageUrl}
 										alt="content"
 									/>
 									<h3 className="tracking-widest text-indigo-500 text-xs font-medium title-font"></h3>

@@ -5,10 +5,9 @@ import { toast } from "react-toastify";
 import Input from "../components/Input";
 import { getUserId } from "../utils/jwtUtil";
 
-
 const CreateCrowdfunding = () => {
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
+	const [title, setTitle] = useState("");
+	const [description, setDescription] = useState("");
 	const [totalAmount, setTotalAmount] = useState(0);
 	const orgId = getUserId();
 	const submit = async () => {
