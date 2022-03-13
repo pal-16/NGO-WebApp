@@ -20,6 +20,10 @@ const CampaignSchema = new Schema(
       type: String,
       required: true
     },
+    imageUrl: {
+      type: String,
+      required: true
+    },
     location: {
       type: {
         type: String, // Don't do `{ location: { type: String } }`

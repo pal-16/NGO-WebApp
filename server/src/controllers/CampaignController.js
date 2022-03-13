@@ -17,8 +17,16 @@ const transporter = nodemailer.createTransport({
 exports.createCampaign = async (req, res) => {
   try {
     console.log(req.body);
-    const { orgId, name, description, noOfVolunteers, time, date, address } =
-      req.body;
+    const {
+      orgId,
+      name,
+      description,
+      noOfVolunteers,
+      time,
+      date,
+      address,
+      imageUrl
+    } = req.body;
 
     let loc = [];
 
@@ -36,7 +44,8 @@ exports.createCampaign = async (req, res) => {
       time,
       date,
       location,
-      address
+      address,
+      imageUrl
     });
     await Organization.findByIdAndUpdate(orgId, {
       $push: { campaign: campaign }
