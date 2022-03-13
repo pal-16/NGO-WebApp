@@ -118,6 +118,7 @@ exports.acceptAssistanceRequest = async (req, res) => {
     const { latitude, longitude } = req.body;
     console.log({ latitude, longitude });
     const assistanceRequest = await AssistanceRequest.findOne({
+      currentStatus: "Pending",
       userlocation:
       {
         $near:
@@ -152,6 +153,26 @@ exports.acceptAssistanceRequest = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+
+exports.updateLocation = async (req, res) => {
+  try {
+    const assistanceRequest = await AssistanceRequest.findOne({
+      assignedUser: req.userId,
+      currentStatus: "Assigned"
+    });
+    assistanceRequest.assignedUserlocation = {
+      type: "Point",
+      coordinates: [req.body.latitude, req.body.longitude]
+    }
+    await assistanceRequest.save();
+    res.status(200).json({
+      status: "success",
+      assistanceRequest
+    });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+}
 
 exports.completeAssistanceRequest = async (req, res) => {
   try {

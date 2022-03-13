@@ -27,6 +27,9 @@ module.exports = (app) => {
   app.route("/api/user/assistance/complete")
     .post(auth.loginRequired, UserController.completeAssistanceRequest);
 
+  app.route("/api/user/assistance/update")
+    .post(auth.loginRequired, UserController.updateLocation);
+
   app.post("/api/user/chatbot", UserController.chatbot);
 
   app

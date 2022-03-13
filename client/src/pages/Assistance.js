@@ -6,10 +6,14 @@ import { toast } from "react-toastify";
 import { responseErrorHandler } from "../utils/Api/Api.js";
 import Loader from "../components/Loader/Loader";
 
+let google;
+
 const Home = () => {
   const [assistanceRequest, setAssistanceRequest] = useState();
   const [user, setUser] = useState();
   const [isLoading, setIsLoading] = useState(true);
+
+  let t = 300;
 
   const completeAssistanceRequest = async () => {
     const toastElement = toast.loading("Completing Assistance Request");
@@ -65,6 +69,51 @@ const Home = () => {
   });
 
   useEffect(() => {
+    const Interval = setInterval(async () => {
+      try {
+        let utterance = new SpeechSynthesisUtterance(`Volunteer arriving in ${parseInt(t / 60)} minutes`);
+        t -= 30;
+        speechSynthesis.speak(utterance);
+        // await navigator.geolocation.getCurrentPosition(async (position) => {
+        //   const { latitude, longitude } = position.coords;
+        //   console.log("position", position, );
+        //   if (user?.status === "disablility") {
+        //     if (assistanceRequest?.currentStatus === "Pending") {
+        //       let utterance = new SpeechSynthesisUtterance("Finding a near by volunteer for you");
+        //       speechSynthesis.speak(utterance);
+        //     } else {
+        //       var origin = new google.maps.LatLng(latitude, longitude);
+        //       var destination = new google.maps.LatLng(assistanceRequest.assignedUserlocation.coordinates[0],
+        //         assistanceRequest.assignedUserlocation.coordinates[1]);
+
+        //       var service = new google.maps.DistanceMatrixService();
+        //       service.getDistanceMatrix(
+        //         {
+        //           origins: [origin],
+        //           destinations: [destination],
+        //           travelMode: 'DRIVING',
+        //           avoidHighways: false,
+        //           avoidTolls: true,
+        //         }, callback);
+
+        //       function callback(response, status) {
+        //         // See Parsing the Results for
+        //         // the basics of a callback function.
+        //         console.log(response, status);
+        //         let utterance = new SpeechSynthesisUtterance("Volunteer arriving soon");
+        //         speechSynthesis.speak(utterance);
+        //       }
+        //     }
+        //     if (user?.status === "no-disability" && assistanceRequest?.currentStatus === "Assigned") {
+        //       await Api.assistance.updateLocation({ latitude, longitude });
+        //     }
+        //   }
+        // });
+      } catch (e) {
+        console.log(e);
+      }
+    }, 20000);
+
     const init = async () => {
       const toastElement = toast.loading("Fetching Current Assistance Request");
       try {

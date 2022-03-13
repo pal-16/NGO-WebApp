@@ -20,6 +20,12 @@ const AssistanceApi = {
   },
   completeAssistanceRequest: () => {
     return axios.post(`/user/assistance/complete`);
+  },
+  updateLocation: ({ latitude, longitude }) => {
+    return axios.post(`/user/assistance/update`, {
+      latitude,
+      longitude
+    });
   }
 };
 
