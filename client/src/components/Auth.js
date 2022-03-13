@@ -9,6 +9,7 @@ import Radio from "./Radio";
 const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 	const [signIn, setSignIn] = useState(isSignIn);
 	const [email, setEmail] = useState("");
+	const [ethereumAddress, setEthereumAddress] = useState("");
 	const [password, setPassword] = useState("");
 	const [address, setAddress] = useState("");
 	const [name, setName] = useState("");
@@ -99,6 +100,7 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 				/>
 			)}
 			<Input label="Password" type="password" setter={setPassword} />
+			{!signIn && <Input label="Enter your ethereum address(Optional)" type="ethereumAddress" setter={setEthereumAddress} />}
 			<button
 				onClick={submit}
 				className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"

@@ -28,6 +28,9 @@ const user = new mongoose.Schema({
     ],
     default: []
   },
+  ethereumAddress:{
+    type:String
+  },
   address: {
     type: String,
     required: true
