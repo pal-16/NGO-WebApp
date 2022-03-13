@@ -28,6 +28,9 @@ const CrowdfundingApi = {
 	transactions: ({ orgId }) => {
 		return axios.get(`/transactions/${orgId}`);
 	},
+	getNFT: (nftId) => {
+		return axios.get(`/nft/${nftId}`);
+	},
 };
 
 export default CrowdfundingApi;
