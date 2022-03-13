@@ -5,8 +5,7 @@ const CampaignSchema = new Schema(
   {
     orgId: {
       type: Schema.Types.ObjectId,
-      ref: "organization",
-      required: true
+      ref: "organization"
     },
     name: {
       type: String,

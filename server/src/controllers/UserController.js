@@ -20,8 +20,22 @@ exports.registerUser = async (req, res) => {
         error: "user with this ID or email already exists"
       });
     }
+    const { name, email, address, password, status } = req.body;
+
+    let loc = [];
+
+    const result = await geocoder.findAddressCandidates(address, {});
+    loc.push(result.candidates[0].location.x);
+    loc.push(result.candidates[0].location.y);
+    let location = { type: "Point", coordinates: loc };
+
     const newuser = await User.create({
-      ...req.body
+      name,
+      email,
+      address,
+      password,
+      status,
+      location
     });
     const token = auth.signToken(newuser._id);
 

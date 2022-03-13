@@ -25,6 +25,8 @@ const CreateCampaign = () => {
 		const toastElement = toast.loading("Creating Post");
 
 		try {
+			console.log("==================");
+			console.log(orgId);
 			const response = await Api.campaign.createCampaign({
 				orgId,
 				name,
