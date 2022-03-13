@@ -52,7 +52,7 @@ const AuthModal = ({ setIsAuthenticated, close, isSignIn, userType }) => {
 				  });
 			toast.update(toastElement, {
 				render: signIn
-					? "Logd In Successfully"
+					? "Logged In Successfully"
 					: "Account Created Successfully",
 				type: "success",
 				isLoading: false,

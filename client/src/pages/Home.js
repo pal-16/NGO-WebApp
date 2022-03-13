@@ -152,7 +152,7 @@ const Home = ({ isAuthenticated, setIsAuthenticated }) => {
       <div className="py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:text-center">
-          <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">Features of KheloFi</h2>
+          <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">Features of SpreadASmile</h2>
           <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
             Providing Value to Our Users
           </p>
@@ -183,12 +183,10 @@ const Home = ({ isAuthenticated, setIsAuthenticated }) => {
 			<div className="container px-5 py-24 mx-auto">
 				<div className="flex flex-col text-center w-full mb-20">
 					<h1 className="text-2xl font-medium title-font mb-4 text-gray-900">
-						OUR TEAM
+						Our Team
 					</h1>
 					<p className="lg:w-2/3 mx-auto leading-relaxed text-base">
-						We have an amazing team that has enourmous experience in web, mobile
-						and blockchain developement along with knowledge about the sports
-						market.
+						We have an amazing team that is consistely aiming to solve the problems via technology and support the NGOs. 
 					</p>
 				</div>
 				<div className="flex flex-wrap -m-4">

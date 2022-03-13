@@ -27,7 +27,7 @@ const Header = ({ isAuthenticated, setIsAuthenticated }) => {
   return (
     <>
       <Banner />
-      <div className="max-w-7xl mx-auto relative z-10 bg-white lg:max-w-2xl lg:w-full">
+      <div >
         <Popover>
           <div className="relative pt-6 px-4 sm:px-6 lg:px-0">
             <nav className="relative flex items-center justify-between sm:h-10 lg:justify-start" aria-label="Global">
@@ -59,7 +59,7 @@ const Header = ({ isAuthenticated, setIsAuthenticated }) => {
                   isAuthenticated &&
                   <>
                     <Link to="/UserCrowdFunding" className="font-medium text-indigo-600 hover:text-indigo-500">
-                      CrowdFunds
+                      View CrowdFunding Posts
                     </Link>
                   </>
                 }
@@ -67,7 +67,7 @@ const Header = ({ isAuthenticated, setIsAuthenticated }) => {
                   isAuthenticated && userType === 'org' &&
                   <>
                     <Link to="/CrowdFunding" className="font-medium text-indigo-600 hover:text-indigo-500">
-                      Create CrowdFund
+                      Create CrowdFunding Post
                     </Link>
                   </>
                 }
@@ -75,7 +75,7 @@ const Header = ({ isAuthenticated, setIsAuthenticated }) => {
                   isAuthenticated && userType === 'org' &&
                   <>
                     <Link to="/createCampaign" className="font-medium text-indigo-600 hover:text-indigo-500">
-                      Create Campaign
+                      Create a Campaign
                     </Link>
                   </>
                 }
@@ -83,7 +83,7 @@ const Header = ({ isAuthenticated, setIsAuthenticated }) => {
                   isAuthenticated && userType === 'user' &&
                   <>
                     <Link to="/campaign" className="font-medium text-indigo-600 hover:text-indigo-500">
-                      Campaign
+                     View ongoing Campaigns
                     </Link>
                   </>
                 }
