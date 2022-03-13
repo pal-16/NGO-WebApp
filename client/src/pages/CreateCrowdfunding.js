@@ -9,6 +9,7 @@ const CreateCrowdfunding = () => {
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [totalAmount, setTotalAmount] = useState(0);
+	const [imageUrl, setImageUrl] = useState("");
 	const orgId = getUserId();
 	const submit = async () => {
 		if (title.length < 3) {
@@ -46,7 +47,7 @@ const CreateCrowdfunding = () => {
 			<Input label="Title" type="title" setter={setTitle} />
 			<Input label="Description" name="description" setter={setDescription} />
 			<Input label="Total Amount" name="totalAmount" setter={setTotalAmount} />
-
+			<Input label="Image" name="imageUrl" setter={setImageUrl} />
 			<button
 				onClick={submit}
 				className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"

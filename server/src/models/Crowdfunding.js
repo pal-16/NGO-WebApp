@@ -21,7 +21,16 @@ const CrowdfundingSchema = new Schema(
     },
     currentAmount: {
       type: Number,
-      required: false
+      required: false,
+      default:0
+    },
+    imageUrl: {
+      type: String,
+      required: true
+    },
+    status:{
+      type:String,
+      default:"incomplete"
     },
     volunteers: {
       type: [

@@ -32,7 +32,8 @@ exports.createCrowdfunding = async (req, res) => {
       orgId,
       title,
       description,
-      totalAmount
+      totalAmount,
+      imageUrl
     });
     await Organization.findByIdAndUpdate(orgId, {
       $push: { crowdfunding: crowdfundingPost }
@@ -116,10 +117,18 @@ exports.makeTransaction = async (req, res) => {
   try {
     console.log("====================");
     console.log(req.body);
-
+   
     const { amount, postId, orgId, userId, paymentId } = req.body;
+    let post = await Crowdfunding.findById(postId);
+   
+ 
+    post.currentAmount=post.currentAmount+amount;
+    if(post.currentAmount>=post.totalAmount){
+      post.status="Completed";
+    }
+     
+    await post.save();
     const transaction = await Transaction.create({ amount, postId, orgId, userId, paymentId });
-
     const LendHand = new web3.eth.Contract(artifacts.abi, "0x722ef55088838df5BE39F74fa143C9f7FDC9daC9");
     const user = await User.findByIdAndUpdate(userId);
     LendHand.methods.awardItem(user.ethereumAddress, "").call();

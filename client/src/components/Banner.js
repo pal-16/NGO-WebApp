@@ -17,8 +17,8 @@ const Banner = () => {
                   <SpeakerphoneIcon className="h-6 w-6 text-white" aria-hidden="true" />
                 </span>
                 <p className="ml-3 font-medium text-white truncate">
-                  <span className="md:hidden">We announced a new product!</span>
-                  <span className="hidden md:inline">Big news! New Tokens have been published on the Crowdfunding.</span>
+                  <span className="md:hidden">Welcome to SpreadASmile</span>
+                  <span className="hidden md:inline">Explore the features of our website to help and support!</span>
                 </p>
               </div>
               <div className="order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
