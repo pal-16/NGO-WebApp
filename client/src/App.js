@@ -20,6 +20,8 @@ const CreateCampaign = React.lazy(() => import("./pages/CreateCampaign"));
 const Token = React.lazy(() => import("./pages/Token"));
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Assistance = React.lazy(() => import("./pages/Assistance"));
+const NFT = React.lazy(() => import("./pages/NFT"));
+const Analytics = React.lazy(() => import("./pages/Analytics"));
 
 const App = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(isLoggedIn());
@@ -70,7 +72,9 @@ const App = () => {
 						<Route
 							path="/Crowdfunding"
 							exact
-							element={isAuthenticated ? <CreateCrowdfunding /> : <Navigate to="/" />}
+							element={
+								isAuthenticated ? <CreateCrowdfunding /> : <Navigate to="/" />
+							}
 						/>
 						<Route
 							path="/UserCrowdfunding"
@@ -84,14 +88,21 @@ const App = () => {
 							element={isAuthenticated ? <Token /> : <Navigate to="/" />}
 						/>
 						<Route
+							path="/nft/:nftId"
+							element={isAuthenticated ? <NFT /> : <Navigate to="/" />}
+						/>
+						<Route
 							path="/assistance"
 							element={isAuthenticated ? <Assistance /> : <Navigate to="/" />}
 						/>
 						<Route
+							path="/analytics"
+							element={isAuthenticated ? <Analytics /> : <Navigate to="/" />}
+						/>
+						<Route
 							path="/dashboard"
 							element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />}
-						>
-						</Route>
+						></Route>
 					</Routes>
 				</Suspense>
 				<Footer />
